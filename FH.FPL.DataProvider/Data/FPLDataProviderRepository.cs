@@ -1,8 +1,8 @@
-﻿namespace FantasyHelper.FA.DataProvider.Data
+﻿namespace FantasyHelper.FPL.DataProvider.Data
 {
-    public class FADataProviderRepository : IDataProviderRepository
+    public class FPLDataProviderRepository : IDataProviderRepository
     {
-        #region Pivate Members
+        #region Private Members
 
         private readonly AppDbContext _context;
 
@@ -13,12 +13,10 @@
         /// <summary>
         /// Default constructor
         /// </summary>
-        public FADataProviderRepository(AppDbContext context)
+        public FPLDataProviderRepository(AppDbContext context)
         {
             _context = context;
         }
-
-        #endregion
 
         public IEnumerable<Fixture> GetAllFixtures()
         {
@@ -38,6 +36,8 @@
                 .ToList();
         }
 
+        #endregion
+
         public IEnumerable<Player> GetAllPlayers()
         {
             return _context.Players
@@ -49,6 +49,10 @@
         {
             return _context.Teams
                 .Include(t => t.Players)
+                .Include(t => t.HomeFixtures)
+                    .ThenInclude(f => f.AwayTeam)
+                .Include(t => t.AwayFixtures)
+                    .ThenInclude(f => f.HomeTeam)
                 .ToList();
         }
 
@@ -56,7 +60,7 @@
         {
             return _context.Fixtures
                 .Include(f => f.HomeTeam)
-                .Include(f => f.AwayTeam)
+                .Include(_f => _f.AwayTeam)
                 .FirstOrDefault(fixture => fixture.FixtureId == id);
         }
 
@@ -72,7 +76,9 @@
 
         public Player GetPlayerById(int id)
         {
-            return _context.Players.Include(p => p.Team).FirstOrDefault(p => p.PlayerId == id);
+            return _context.Players
+                .Include(p => p.Team)
+                .FirstOrDefault(p => p.PlayerId == id);
         }
 
         public Team GetTeamById(int id)

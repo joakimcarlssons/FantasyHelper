@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FantasyHelper.FPL.DataProvider", "FantasyHelper.FPL.DataProvider\FantasyHelper.FPL.DataProvider.csproj", "{0CB6CD59-3266-45D2-AF8C-44C444C47FBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FH.FPL.DataProvider", "FH.FPL.DataProvider\FH.FPL.DataProvider.csproj", "{0CB6CD59-3266-45D2-AF8C-44C444C47FBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyHelper.FA.DataProvider", "FantasyHelper.FA.DataProvider\FantasyHelper.FA.DataProvider.csproj", "{13A41724-27F0-41D5-82A7-D34CBD8FB5DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FH.FA.DataProvider", "FH.FA.DataProvider\FH.FA.DataProvider.csproj", "{13A41724-27F0-41D5-82A7-D34CBD8FB5DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
