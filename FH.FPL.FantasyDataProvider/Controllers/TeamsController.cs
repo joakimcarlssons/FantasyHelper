@@ -32,14 +32,13 @@ namespace FantasyHelper.FPL.DataProvider.Controllers
         public ActionResult<IEnumerable<TeamReadDto>> GetAllTeams()
         {
             var teams = _repo.GetAllTeams();
-            return Ok(_mapper.Map<TeamReadDto>(teams));
+            return Ok(_mapper.Map<IEnumerable<TeamReadDto>>(teams));
         }
 
         [HttpGet("{id}")]
         public ActionResult<TeamReadDto> GetTeamById(int id)
         {
             var team = _repo.GetTeamById(id);
-            var t = _mapper.Map<TeamReadDto>(team);
             return Ok(_mapper.Map<TeamReadDto>(team));
         }
 

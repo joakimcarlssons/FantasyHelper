@@ -9,15 +9,10 @@
         {
             // Source -> Target
             CreateMap<ExternalTeamDto, Team>();
-            CreateMap<Team, TeamReadDto>()
-                .AfterMap((src, dest) => dest.HomeFixtures.ForEach(f => f.TeamId = src.TeamId))
-                .AfterMap((src, dest) => dest.AwayFixtures.ForEach(f => f.TeamId = src.TeamId));
+            CreateMap<Team, TeamReadDto>();
 
             // Used when returning a player
             CreateMap<Team, PlayerTeamReadDto>();
-
-            // Used when returning a fixture (for the opponent)
-            CreateMap<Team, FixtureTeamReadDto>();
 
             // Used for message publishing
             CreateMap<ExternalTeamDto, TeamsPublishedTeamDto>();

@@ -29,34 +29,6 @@
         #endregion
 
         /// <summary>
-        /// Loads fixture data from the Fantast Allsvenskan API
-        /// </summary>
-        /// <returns></returns>
-        public async Task<IEnumerable<ExternalFixtureDto>> LoadFixtureData()
-        {
-            try
-            {
-                var response = await _httpClient.GetAsync(_faConfig.FixturesEndpoint);
-                if (response.IsSuccessStatusCode)
-                {
-                    var data = JsonSerializer.Deserialize<IEnumerable<ExternalFixtureDto>>(await response.Content.ReadAsStringAsync());
-                    if (data == null) throw new NullReferenceException(nameof(data));
-
-                    return data;
-                }
-                else
-                {
-                    throw new HttpRequestException();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"--> { ex.Message }");
-                throw;
-            }
-        }
-
-        /// <summary>
         /// Loads root data including teams, players and gameweeks from Fantasy Allsvenskan API
         /// </summary>
         public async Task<ExternalRootDto> LoadRootData()
@@ -106,13 +78,11 @@
                 
                 // Load data
                 var rootData = await LoadRootData();
-                var fixtureData = await LoadFixtureData();
 
                 // Save data to database
                 rootData.Players.ForEach(player => repo.SavePlayer(_mapper.Map<Player>(player)));
                 rootData.Teams.ForEach(team => repo.SaveTeam(_mapper.Map<Team>(team)));
                 rootData.Gameweeks.ForEach(gw => repo.SaveGameweek(_mapper.Map<Gameweek>(gw)));
-                fixtureData.ToList().ForEach(fixture => repo.SaveFixture(_mapper.Map<Fixture>(fixture)));
 
                 // Return result
                 return repo.SaveChanges();

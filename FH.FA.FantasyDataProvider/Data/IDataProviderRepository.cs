@@ -18,10 +18,5 @@
         void SaveTeam(Team team);
         IEnumerable<Team> GetAllTeams();
         Team GetTeamById(int id);
-
-        // Fixtures
-        void SaveFixture(Fixture fixture);
-        IEnumerable<Fixture> GetAllFixtures();
-        Fixture GetFixtureById(int id);
     }
 }

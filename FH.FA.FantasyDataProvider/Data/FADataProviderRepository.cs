@@ -20,21 +20,9 @@
 
         #endregion
 
-        public IEnumerable<Fixture> GetAllFixtures()
-        {
-            return _context.Fixtures
-                .Include(f => f.HomeTeam)
-                .Include(f => f.AwayTeam)
-                .ToList();
-        }
-
         public IEnumerable<Gameweek> GetAllGameweeks()
         {
             return _context.Gameweeks
-                .Include(gw => gw.Fixtures)
-                    .ThenInclude(f => f.AwayTeam)
-                .Include(gw => gw.Fixtures)
-                    .ThenInclude(f => f.HomeTeam)
                 .ToList();
         }
 
@@ -49,28 +37,12 @@
         {
             return _context.Teams
                 .Include(t => t.Players)
-                .Include(t => t.HomeFixtures)
-                    .ThenInclude(f => f.AwayTeam)
-                .Include(t => t.AwayFixtures)
-                    .ThenInclude(f => f.HomeTeam)
                 .ToList();
-        }
-
-        public Fixture GetFixtureById(int id)
-        {
-            return _context.Fixtures
-                .Include(f => f.HomeTeam)
-                .Include(f => f.AwayTeam)
-                .FirstOrDefault(fixture => fixture.FixtureId == id);
         }
 
         public Gameweek GetGameweekById(int id)
         {
             return _context.Gameweeks
-                .Include(gw => gw.Fixtures)
-                    .ThenInclude(f => f.AwayTeam)
-                .Include(gw => gw.Fixtures)
-                    .ThenInclude(f => f.HomeTeam)
                 .FirstOrDefault(gameweek => gameweek.GameweekId == id);
         }
 
@@ -83,27 +55,10 @@
         {
             return _context.Teams
                 .Include(t => t.Players)
-                .Include(t => t.HomeFixtures)
-                    .ThenInclude(f => f.AwayTeam)
-                .Include(t => t.AwayFixtures)
-                    .ThenInclude(f => f.HomeTeam)
                 .FirstOrDefault(t => t.TeamId == id);
         }
 
         public bool SaveChanges() => (_context.SaveChanges() >= 0);
-
-        public void SaveFixture(Fixture fixture)
-        {
-            if (fixture == null) throw new NullReferenceException(nameof(fixture));
-            if (_context.Fixtures.Any(f => f.FixtureId == fixture.FixtureId))
-            {
-                _context.Fixtures.Update(fixture);
-            }
-            else
-            {
-                _context.Fixtures.Add(fixture);
-            }
-        }
 
         public void SaveGameweek(Gameweek gameweek)
         {

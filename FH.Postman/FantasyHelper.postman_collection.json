@@ -1,0 +1,461 @@
+{
+	"info": {
+		"_postman_id": "bd68a278-bae6-44c5-8170-67973ccd1357",
+		"name": "FantasyHelper",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14575626"
+	},
+	"item": [
+		{
+			"name": "Fantasy Allsvenskan",
+			"item": [
+				{
+					"name": "Base Data",
+					"item": [
+						{
+							"name": "Gameweeks",
+							"item": [
+								{
+									"name": "Get all gameweeks",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}{{FA_BaseDataPort}}/api/gameweeks",
+											"host": [
+												"{{baseURL}}{{FA_BaseDataPort}}"
+											],
+											"path": [
+												"api",
+												"gameweeks"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get gameweek by id",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}{{FA_BaseDataPort}}/api/gameweeks/:id",
+											"host": [
+												"{{baseURL}}{{FA_BaseDataPort}}"
+											],
+											"path": [
+												"api",
+												"gameweeks",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Players",
+							"item": [
+								{
+									"name": "Get all players",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}{{FA_BaseDataPort}}/api/players",
+											"host": [
+												"{{baseURL}}{{FA_BaseDataPort}}"
+											],
+											"path": [
+												"api",
+												"players"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get player by id",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}{{FA_BaseDataPort}}/api/players/:id",
+											"host": [
+												"{{baseURL}}{{FA_BaseDataPort}}"
+											],
+											"path": [
+												"api",
+												"players",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Teams",
+							"item": [
+								{
+									"name": "Get all teams",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}{{FA_BaseDataPort}}/api/teams",
+											"host": [
+												"{{baseURL}}{{FA_BaseDataPort}}"
+											],
+											"path": [
+												"api",
+												"teams"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get team by id",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}{{FA_BaseDataPort}}/api/teams/:id",
+											"host": [
+												"{{baseURL}}{{FA_BaseDataPort}}"
+											],
+											"path": [
+												"api",
+												"teams",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Fixture Data",
+					"item": [
+						{
+							"name": "Get all fixtures",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{FA_FixturesPort}}/api/fixtures",
+									"host": [
+										"{{baseURL}}{{FA_FixturesPort}}"
+									],
+									"path": [
+										"api",
+										"fixtures"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get fixture by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{FA_FixturesPort}}/api/fixtures/:fixtureId",
+									"host": [
+										"{{baseURL}}{{FA_FixturesPort}}"
+									],
+									"path": [
+										"api",
+										"fixtures",
+										":fixtureId"
+									],
+									"variable": [
+										{
+											"key": "fixtureId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get fixtures by team",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{FA_FixturesPort}}/api/fixtures/team/:teamId",
+									"host": [
+										"{{baseURL}}{{FA_FixturesPort}}"
+									],
+									"path": [
+										"api",
+										"fixtures",
+										"team",
+										":teamId"
+									],
+									"variable": [
+										{
+											"key": "teamId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get fixtures by gameweek",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{FA_FixturesPort}}/api/fixtures/gameweek/:gameweekId",
+									"host": [
+										"{{baseURL}}{{FA_FixturesPort}}"
+									],
+									"path": [
+										"api",
+										"fixtures",
+										"gameweek",
+										":gameweekId"
+									],
+									"variable": [
+										{
+											"key": "gameweekId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "FPL",
+			"item": [
+				{
+					"name": "Fixtures",
+					"item": [
+						{
+							"name": "Get all fixtures",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{FPL_BaseDataPort}}/api/fixtures",
+									"host": [
+										"{{baseURL}}{{FPL_BaseDataPort}}"
+									],
+									"path": [
+										"api",
+										"fixtures"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get fixture by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{FPL_BaseDataPort}}/api/fixtures/:id",
+									"host": [
+										"{{baseURL}}{{FPL_BaseDataPort}}"
+									],
+									"path": [
+										"api",
+										"fixtures",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Gameweeks",
+					"item": [
+						{
+							"name": "Get all gameweeks",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{FPL_BaseDataPort}}/api/gameweeks",
+									"host": [
+										"{{baseURL}}{{FPL_BaseDataPort}}"
+									],
+									"path": [
+										"api",
+										"gameweeks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get gameweek by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{FPL_BaseDataPort}}/api/gameweeks/:id",
+									"host": [
+										"{{baseURL}}{{FPL_BaseDataPort}}"
+									],
+									"path": [
+										"api",
+										"gameweeks",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Players",
+					"item": [
+						{
+							"name": "Get all players",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{FPL_BaseDataPort}}/api/players",
+									"host": [
+										"{{baseURL}}{{FPL_BaseDataPort}}"
+									],
+									"path": [
+										"api",
+										"players"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get player by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{FPL_BaseDataPort}}/api/players/:id",
+									"host": [
+										"{{baseURL}}{{FPL_BaseDataPort}}"
+									],
+									"path": [
+										"api",
+										"players",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Teams",
+					"item": [
+						{
+							"name": "Get all teams",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{FPL_BaseDataPort}}/api/teams",
+									"host": [
+										"{{baseURL}}{{FPL_BaseDataPort}}"
+									],
+									"path": [
+										"api",
+										"teams"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get team by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{FPL_BaseDataPort}}/api/teams/:id",
+									"host": [
+										"{{baseURL}}{{FPL_BaseDataPort}}"
+									],
+									"path": [
+										"api",
+										"teams",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

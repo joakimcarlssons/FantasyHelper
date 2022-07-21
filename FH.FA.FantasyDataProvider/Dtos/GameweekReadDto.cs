@@ -9,6 +9,5 @@
         public bool IsFinished { get; set; }
         public bool IsCurrent { get; set; }
         public DateTime Deadline { get; set; }
-        public List<GameweekFixtureReadDto> Fixtures { get; set; }
     }
 }
