@@ -36,17 +36,28 @@
 
         public Fixture GetFixtureById(int id)
         {
-            return _context.Fixtures.FirstOrDefault(fixture => fixture.FixtureId == id);
+            return _context.Fixtures
+                .Include(f => f.HomeTeam)
+                .Include(f => f.AwayTeam)
+                .FirstOrDefault(fixture => fixture.FixtureId == id);
         }
 
         public IEnumerable<Fixture> GetFixturesForGameweek(int gameweekId)
         {
-            return _context.Fixtures.Where(fixture => fixture.GameweekId == gameweekId).ToList();
+            return _context.Fixtures
+                .Where(fixture => fixture.GameweekId == gameweekId)
+                .Include(f => f.HomeTeam)
+                .Include(f => f.AwayTeam)
+                .ToList();
         }
 
         public IEnumerable<Fixture> GetFixturesForTeam(int teamId)
         {
-            return _context.Fixtures.Where(fixture => fixture.HomeTeamId == teamId || fixture.AwayTeamId == teamId).ToList();
+            return _context.Fixtures
+                .Where(fixture => fixture.HomeTeamId == teamId || fixture.AwayTeamId == teamId)
+                .Include(f => f.HomeTeam)
+                .Include(f => f.AwayTeam)
+                .ToList();
         }
 
         public void SaveFixture(Fixture fixture)
