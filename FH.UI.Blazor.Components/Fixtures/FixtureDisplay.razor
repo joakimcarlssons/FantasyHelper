@@ -1,0 +1,34 @@
+﻿@if(GameweekNumber != 0)
+{
+    <div class="fixture-container">
+        <span class="fixture-container__gameweek">@GameweekNumber</span>
+    </div>
+}
+else
+{
+    if (Fixtures == null)
+    {
+        <div class="fixture-container">
+            <span>-</span>
+        </div>
+    }
+    else
+    {
+        <div class="fixture-container">
+            @foreach (var fixture in Fixtures)
+            {
+                <div class="fixture-container__fixture" style="background:@SetFixtureBackground(fixture); color:@SetFixtureForeground(fixture);">
+                    @if (IsBlank(fixture))
+                    {
+                        <span>-</span>
+                    }
+                    else
+                    {
+                        <span>@(IsHome(fixture) ? fixture.AwayTeam.ShortName + " (H)" : fixture.HomeTeam.ShortName + " (A)")</span>
+                    }
+                </div>
+            }
+        </div>
+    } 
+}
+

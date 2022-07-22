@@ -5,6 +5,7 @@
     /// </summary>
     public class FixtureReadDto
     {
+        public int FixtureId { get; set; }
         public int GameweekId { get; set; }
         public FixtureTeamReadDto HomeTeam { get; set; }
         public FixtureTeamReadDto AwayTeam { get; set; }

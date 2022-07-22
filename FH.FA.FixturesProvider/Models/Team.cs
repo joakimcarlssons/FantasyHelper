@@ -7,6 +7,7 @@ namespace FH.FA.FixturesProvider.Models
         [Key]
         public int TeamId { get; set; }
         public string Name { get; set; }
+        public string ShortName { get; set; }
         public int Position { get; set; }
         public int MatchesPlayed { get; set; }
         public int Wins { get; set; }

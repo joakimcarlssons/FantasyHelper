@@ -1,0 +1,37 @@
+﻿@page "/fixtures"
+@using FH.UI.Blazor.Components.Fixtures;
+
+<div class="fixtures-wrapper">
+    @if (Teams == null)
+    {
+        <p>Loading fixtures...</p>
+    }
+    else
+    {
+
+        <div class="team__fixtures-wrapper">
+            <p></p>
+            <div class="team__fixtures">
+                @for (int i = NextGameweek; i <= NextGameweek + GameweeksToDisplay; i++)
+                {
+                    <FixtureDisplay GameweekNumber="i" />
+                }
+            </div>
+        </div>
+
+        @foreach (var model in TeamFixtures.Where(f => f.Fixtures.Where(ff => ff.Count > 0).Any()))
+        {
+            <div class="team__fixtures-wrapper">
+                <p>@model.Team.Name</p>
+
+                <div class="team__fixtures">
+                    @for (int i = NextGameweek; i <= NextGameweek + GameweeksToDisplay; i++)
+                    {
+                        <FixtureDisplay TeamId="model.Team.TeamId" Fixtures="model.Fixtures.FirstOrDefault(f => f.Any(ff => ff.GameweekId == i))?.ToList()" />
+                    }
+                </div>
+            </div>
+        }
+    }
+
+</div>

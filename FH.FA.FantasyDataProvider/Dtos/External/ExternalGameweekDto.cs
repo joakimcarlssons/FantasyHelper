@@ -14,6 +14,9 @@
         [JsonPropertyName("is_current")]
         public bool IsCurrent { get; set; }
 
+        [JsonPropertyName("is_next")]
+        public bool IsNext { get; set; }
+
         [JsonPropertyName("deadline_time")]
         public DateTime Deadline { get; set; }
     }

@@ -1,0 +1,47 @@
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 4rem;
+}
+
+    header .header__left {
+        margin-top: -5px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+        header .header__left .fantasy-select {
+            margin-left: 10px;
+            margin-top: -3px;
+        }
+
+        header .logo {
+            font-family: 'Anton', sans-serif;
+        }
+
+        header .logo:hover {
+            cursor: pointer;
+        }
+
+        header .logo h1 {
+            text-transform: uppercase;
+            font-size: 22px;
+            letter-spacing: 3px;
+        }
+
+    header ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        header ul li {
+            margin: 0 1rem;
+            list-style: none;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: .1rem;
+        }

@@ -24,7 +24,7 @@ namespace FantasyHelper.FPL.DataProvider.Data
         {
             _dataLoader = dataLoader;
             _fplConfig = fplConfig.Value;
-            _timer = new(TimeSpan.FromSeconds(_fplConfig.LoadingInterval));
+            _timer = new(TimeSpan.FromMinutes(_fplConfig.LoadingInterval));
         }
 
         #endregion

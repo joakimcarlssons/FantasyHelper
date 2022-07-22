@@ -23,5 +23,7 @@
         void SaveFixture(Fixture fixture);
         IEnumerable<Fixture> GetAllFixtures();
         Fixture GetFixtureById(int id);
+        IEnumerable<Fixture> GetFixturesForGameweek(int gameweekId);
+        IEnumerable<Fixture> GetFixturesForTeam(int teamId);
     }
 }

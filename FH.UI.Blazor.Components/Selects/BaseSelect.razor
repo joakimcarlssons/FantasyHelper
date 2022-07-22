@@ -1,0 +1,18 @@
+﻿<details class="custom-select">
+	<summary class="radios">
+		<input type="radio" name="item" id="default" title="@DefaultValue" checked>
+
+		@foreach (var option in Options)
+		{
+			<input type="radio" name="item" id="@option" title="@option">
+		}
+	</summary>
+	<ul class="list">
+		@foreach (var option in Options)
+		{
+			<li @onclick="(async () => await OnItemSelected(option))">
+				<label for="@option">@option</label>
+			</li>
+		}
+	</ul>
+</details>

@@ -1,0 +1,22 @@
+﻿<header>
+
+    <div class="header__left">
+        <div class="logo" @onclick="@(() => NavigateTo("/"))">
+            <h1>Fantasy Helper</h1>
+        </div>
+        <div class="fantasy-select">
+            <BaseSelect Options="FantasyOptions" DefaultValue="@StateContainer.SelectedFantasyGame" OnSelect="OnFantasyChanged" />
+        </div>
+    </div>
+
+
+    <nav>
+        <ul>
+            @foreach(var nav in NavLinks)
+            {
+                <li><NavLink href="@nav.Value" Match="NavLinkMatch.All" ActiveClass="active">@nav.Key</NavLink> </li>
+            }
+        </ul>
+    </nav>
+
+</header>

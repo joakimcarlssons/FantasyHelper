@@ -5,7 +5,7 @@
     /// </summary>
     public class TeamFixtureReadDto
     {
-        public int Gameweek { get; set; }
+        public int GameweekId { get; set; }
 
         public FixtureTeamReadDto Opponent => TeamId == HomeTeam.TeamId ? AwayTeam : HomeTeam;
 
