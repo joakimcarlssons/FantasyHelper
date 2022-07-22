@@ -308,6 +308,58 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Get fixtures by team",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{FPL_BaseDataPort}}/api/fixtures/team/:teamId",
+									"host": [
+										"{{baseURL}}{{FPL_BaseDataPort}}"
+									],
+									"path": [
+										"api",
+										"fixtures",
+										"team",
+										":teamId"
+									],
+									"variable": [
+										{
+											"key": "teamId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get fixtures by gameweek",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{FPL_BaseDataPort}}/api/fixtures/gameweek/:gameweekId",
+									"host": [
+										"{{baseURL}}{{FPL_BaseDataPort}}"
+									],
+									"path": [
+										"api",
+										"fixtures",
+										"gameweek",
+										":gameweekId"
+									],
+									"variable": [
+										{
+											"key": "gameweekId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
