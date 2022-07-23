@@ -16,7 +16,7 @@
                         FixtureDotType="FixtureDotTypes.Result"
                         Size="10"
                         ComparisonTeamId="Team?.TeamId ?? 0"
-                        Fixture="TeamFixtures?.FirstOrDefault(fixture => fixture.GameweekId == i)" />
+                        Fixture="TeamFixtures?.FirstOrDefault(fixture => fixture.GameweekId == i && (fixture.HomeTeam.TeamId == Team.TeamId || fixture.AwayTeam.TeamId == Team.TeamId), null)" />
                 </span>
             }
         </span>
@@ -27,7 +27,7 @@
         
         <span class="header">Coming fixtures:</span>
         <span class="body">
-            @for (int i = NextGameweek; i <= NextGameweek + 5; i++)
+            @for (int i = NextGameweek; i < NextGameweek + 5; i++)
             {
                 <span class="dot">
                     <FixtureDot

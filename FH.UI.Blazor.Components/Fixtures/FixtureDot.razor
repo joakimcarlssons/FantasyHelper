@@ -1,4 +1,23 @@
-﻿<div class="dot" style="height: @Height; width: @Width; background-color: @Color;"></div>
+﻿<CustomTooltip>
+    <MainContent>
+        <div class="dot" style="height: @Height; width: @Width; background-color: @Color;"></div>
+    </MainContent>
+    <TooltipContent>
+        @switch (FixtureDotType)
+        {
+            case FixtureDotTypes.Difficulty:
+                {
+                    <FixtureDisplay Fixtures="TooltipFixture" TeamId="ComparisonTeamId" />
+                    break;
+                }
+            case FixtureDotTypes.Result:
+                {
+                    <ResultDisplay Fixture="Fixture" />
+                    break;
+                }
+        }
+    </TooltipContent>
+</CustomTooltip>
 
 
 @code {
@@ -17,6 +36,7 @@
     public string Height => $"{ Size }px";
     public string Width => $"{ Size }px";
     public string Color => SetColor();
+    public List<FixtureViewModel> TooltipFixture => Fixture == null ? null : new() { Fixture };
 
     private string SetColor()
     {
@@ -26,9 +46,7 @@
         {
             case FixtureDotTypes.Result:
                 {
-                    if (Fixture?.HomeTeamScore == Fixture?.AwayTeamScore) return "#E7E7E7";
-                    else if (Fixture?.HomeTeamScore > Fixture?.AwayTeamScore) return teamIsHome ? "#01FC7A" : "#80072D";
-                    else return teamIsHome ? "#80072D" : "#01FC7A";
+                    return FixtureHelpers.GetFixtureResultColor(ComparisonTeamId, Fixture);
                 }
             case FixtureDotTypes.Difficulty:
                 {

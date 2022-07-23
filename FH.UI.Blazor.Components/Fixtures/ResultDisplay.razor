@@ -1,0 +1,16 @@
+﻿<div class="result-display-wrapper">
+    <span style="font-weight: @( Fixture?.HomeTeamScore > Fixture?.AwayTeamScore ? "700;" : "400;" )">@Fixture?.HomeTeam.ShortName</span>
+
+    <div class="result-display__result">
+        <span style="font-weight: @( Fixture?.HomeTeamScore > Fixture?.AwayTeamScore ? "700;" : "400;" )">@Fixture?.HomeTeamScore</span>
+        -
+        <span style="font-weight: @( Fixture?.AwayTeamScore > Fixture?.HomeTeamScore ? "700;" : "400;" )">@Fixture?.AwayTeamScore</span>
+    </div>
+
+    <span style="font-weight: @( Fixture?.AwayTeamScore > Fixture?.HomeTeamScore ? "700;" : "400;" )">@Fixture?.AwayTeam.ShortName</span>
+</div>
+
+@code {
+    [Parameter]
+    public FixtureViewModel? Fixture { get; set; }
+}

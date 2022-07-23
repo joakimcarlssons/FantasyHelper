@@ -12,5 +12,14 @@
                 default: return "#E7E7E7";
             }
         }
+
+        internal static string GetFixtureResultColor(int teamId, FixtureViewModel fixture)
+        {
+            var teamIsHome = fixture?.HomeTeam?.TeamId == teamId;
+
+            if (fixture?.HomeTeamScore == fixture?.AwayTeamScore) return "#E7E7E7";
+            else if (fixture?.HomeTeamScore > fixture?.AwayTeamScore) return teamIsHome ? "#01FC7A" : "#80072D";
+            else return teamIsHome ? "#80072D" : "#01FC7A";
+        }
     }
 }

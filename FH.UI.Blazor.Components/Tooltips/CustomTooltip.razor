@@ -1,0 +1,12 @@
+﻿<div class="tooltip-wrapper">
+    <span class="main-content">@MainContent</span>
+    <span class="tooltip-content">@TooltipContent</span>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment MainContent { get; set; }
+
+    [Parameter]
+    public RenderFragment TooltipContent { get; set; }
+}

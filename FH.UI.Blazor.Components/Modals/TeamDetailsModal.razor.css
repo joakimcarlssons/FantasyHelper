@@ -17,8 +17,8 @@
     }
 
     .team-details__category {
-        display: flex;
-        flex-direction: row;
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
         align-items: center;
         font-size: 14px;
     }
@@ -29,6 +29,9 @@
     }
 
     .team-details__category .body {
+        align-self: flex-start;
+        display: flex;
+        flex-direction: row;
     }
 
         .team-details__category .body .dot {

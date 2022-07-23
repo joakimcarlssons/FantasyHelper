@@ -5,7 +5,7 @@
         #region Parameters
 
         [Parameter]
-        public List<FixtureViewModel> Fixtures { get; set; } = new();
+        public List<FixtureViewModel>? Fixtures { get; set; }
 
         /// <summary>
         /// The team whos opponent will be shown
