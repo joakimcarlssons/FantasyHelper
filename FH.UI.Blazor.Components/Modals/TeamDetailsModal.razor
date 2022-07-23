@@ -1,0 +1,43 @@
+﻿<div class="team-details-wrapper">
+    
+    <div class="head">
+        <h1>@Team?.Name</h1>
+    </div>
+
+    <!-- Previous fixtures -->
+    <div class="team-details__category">
+        
+        <span class="header">Previous fixtures:</span>
+        <span class="body">
+            @for (int i = NextGameweek - 5; i < NextGameweek; i++)
+            {
+                <span class="dot">
+                    <FixtureDot
+                        FixtureDotType="FixtureDotTypes.Result"
+                        Size="10"
+                        ComparisonTeamId="Team?.TeamId ?? 0"
+                        Fixture="TeamFixtures?.FirstOrDefault(fixture => fixture.GameweekId == i)" />
+                </span>
+            }
+        </span>
+    </div>
+
+    <!-- Coming fixtures -->
+    <div class="team-details__category">
+        
+        <span class="header">Coming fixtures:</span>
+        <span class="body">
+            @for (int i = NextGameweek; i <= NextGameweek + 5; i++)
+            {
+                <span class="dot">
+                    <FixtureDot
+                        FixtureDotType="FixtureDotTypes.Difficulty"
+                        Size="10"
+                        ComparisonTeamId="Team?.TeamId ?? 0"
+                        Fixture="TeamFixtures?.FirstOrDefault(fixture => fixture.GameweekId == i)" />
+                </span>
+            }
+        </span>
+    </div>
+
+</div>

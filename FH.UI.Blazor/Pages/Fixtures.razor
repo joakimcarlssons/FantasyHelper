@@ -10,22 +10,27 @@
     {
 
         <div class="team__fixtures-wrapper">
-            <p></p>
+            <span>
+                <i class="fa-solid fa-circle-chevron-left" @onclick="DecreaseGameweek"></i>
+            </span>
             <div class="team__fixtures">
-                @for (int i = NextGameweek; i <= NextGameweek + GameweeksToDisplay; i++)
+                @for (int i = (MinGameweek == 0 ? NextGameweek : MinGameweek); i <= (MinGameweek == 0 ? NextGameweek : MinGameweek) + GameweeksToDisplay; i++)
                 {
                     <FixtureDisplay GameweekNumber="i" />
                 }
             </div>
+            <span>
+                <i class="fa-solid fa-circle-chevron-right" @onclick="IncreaseGameweek"></i>
+            </span>
         </div>
 
         @foreach (var model in TeamFixtures.Where(f => f.Fixtures.Where(ff => ff.Count > 0).Any()))
         {
             <div class="team__fixtures-wrapper">
-                <p>@model.Team.Name</p>
+                <p class="team-name" @onclick="(() => DisplayTeamDetails(model.Team))">@model.Team.Name</p>
 
                 <div class="team__fixtures">
-                    @for (int i = NextGameweek; i <= NextGameweek + GameweeksToDisplay; i++)
+                    @for (int i = (MinGameweek == 0 ? NextGameweek : MinGameweek); i <= (MinGameweek == 0 ? NextGameweek : MinGameweek) + GameweeksToDisplay; i++)
                     {
                         <FixtureDisplay TeamId="model.Team.TeamId" Fixtures="model.Fixtures.FirstOrDefault(f => f.Any(ff => ff.GameweekId == i))?.ToList()" />
                     }
@@ -35,3 +40,13 @@
     }
 
 </div>
+
+<ModalDialog IsVisible="@OpenTeamDetails">
+    <ModalContent>
+        <TeamDetailsModal 
+            Team="TeamToDisplay" 
+            TeamFixtures="TeamFixtures.FirstOrDefault(tf => tf.Team == TeamToDisplay)?.Fixtures.SelectMany(f => f.Select(fixture => fixture)).ToList()"
+            NextGameweek="NextGameweek"
+            />
+    </ModalContent>
+</ModalDialog>

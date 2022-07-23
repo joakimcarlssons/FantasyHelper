@@ -1,0 +1,36 @@
+﻿.team-details-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+}
+    .team-details-wrapper .head {
+        width: 100%;
+        justify-self: center;
+        align-self: center;
+        text-align: center;
+        border-bottom: 1px solid lightgray;
+        margin-bottom: 15px;
+    }
+
+    .team-details-wrapper .head h1 {
+        font-size: 22px;
+    }
+
+    .team-details__category {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 14px;
+    }
+
+    .team-details__category .header {
+        font-weight: 600;
+        margin-right: 2px;
+    }
+
+    .team-details__category .body {
+    }
+
+        .team-details__category .body .dot {
+            margin: 0 1px;
+        }

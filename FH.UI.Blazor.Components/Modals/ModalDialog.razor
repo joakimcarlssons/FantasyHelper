@@ -1,0 +1,6 @@
+﻿<div class="modal-container" style="@(IsVisible ? "display: block;" : "display:none;")">
+    <span class="modal-content">
+        <div class="close" @onclick="(() => IsVisible = false)">&times;</div>
+        @ModalContent
+    </span>
+</div>

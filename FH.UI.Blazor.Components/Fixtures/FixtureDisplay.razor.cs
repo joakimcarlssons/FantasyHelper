@@ -1,7 +1,4 @@
-﻿using FH.UI.Blazor.Components.ViewModels;
-using Microsoft.AspNetCore.Components;
-
-namespace FH.UI.Blazor.Components.Fixtures
+﻿namespace FH.UI.Blazor.Components.Fixtures
 {
     public partial class FixtureDisplay
     {
@@ -27,15 +24,7 @@ namespace FH.UI.Blazor.Components.Fixtures
         private string SetFixtureBackground(FixtureViewModel fixture)
         {
             if (fixture == null) return "#E7E7E7";
-
-            var fixtureDifficulty = IsHome(fixture) ? fixture.HomeTeam.Difficulty : fixture.AwayTeam.Difficulty;
-            switch (fixtureDifficulty)
-            {
-                case 2: return "#01FC7A";
-                case 4: return "#FF1751";
-                case 5: return "#80072D";
-                default: return "#E7E7E7";
-            }
+            return IsHome(fixture) ? FixtureHelpers.GetFixtureDifficultyColor(fixture.HomeTeam.Difficulty) : FixtureHelpers.GetFixtureDifficultyColor(fixture.AwayTeam.Difficulty);
         }
 
         private string SetFixtureForeground(FixtureViewModel fixture)

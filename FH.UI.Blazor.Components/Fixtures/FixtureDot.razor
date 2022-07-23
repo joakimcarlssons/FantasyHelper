@@ -1,0 +1,40 @@
+﻿<div class="dot" style="height: @Height; width: @Width; background-color: @Color;"></div>
+
+
+@code {
+    [Parameter]
+    public int ComparisonTeamId { get; set; }
+
+    [Parameter]
+    public int Size { get; set; } = 25;
+
+    [Parameter]
+    public FixtureViewModel? Fixture { get; set; }
+
+    [Parameter]
+    public FixtureDotTypes FixtureDotType { get; set; }
+
+    public string Height => $"{ Size }px";
+    public string Width => $"{ Size }px";
+    public string Color => SetColor();
+
+    private string SetColor()
+    {
+        var teamIsHome = Fixture?.HomeTeam?.TeamId == ComparisonTeamId;
+
+        switch (FixtureDotType)
+        {
+            case FixtureDotTypes.Result:
+                {
+                    if (Fixture?.HomeTeamScore == Fixture?.AwayTeamScore) return "#E7E7E7";
+                    else if (Fixture?.HomeTeamScore > Fixture?.AwayTeamScore) return teamIsHome ? "#01FC7A" : "#80072D";
+                    else return teamIsHome ? "#80072D" : "#01FC7A";
+                }
+            case FixtureDotTypes.Difficulty:
+                {
+                    return teamIsHome ? FixtureHelpers.GetFixtureDifficultyColor(Fixture?.HomeTeam?.Difficulty ?? 0) : FixtureHelpers.GetFixtureDifficultyColor(Fixture?.AwayTeam?.Difficulty ?? 0);
+                }
+            default: return "#E7E7E7";
+        }
+    }
+}

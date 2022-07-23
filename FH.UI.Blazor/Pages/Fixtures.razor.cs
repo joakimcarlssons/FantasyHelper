@@ -29,10 +29,16 @@
         public int GameweeksToDisplay { get; set; } = 10;
         public int NextGameweek => Gameweeks?.FirstOrDefault(gw => gw.IsNext)?.GameweekId ?? 1;
 
+        public int MinGameweek { get; set; }
+
         private string SelectedFantasyGame { get; set; }
         private string Config { get; set; }
+        public bool OpenTeamDetails { get; set; } = false;
+        public TeamViewModel TeamToDisplay { get; set; }
 
         #endregion
+
+        #region Init / Render
 
         protected override void OnInitialized()
         {
@@ -46,12 +52,15 @@
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            OpenTeamDetails = false;
+
             // If the selected game has been updated
             if (StateContainer.SelectedFantasyGame != SelectedFantasyGame || firstRender)
             {
                 try
                 {
                     StateContainer.DataIsLoading = true;
+                    MinGameweek = 0;
 
                     // Update selected game
                     SelectedFantasyGame = StateContainer.SelectedFantasyGame;
@@ -89,7 +98,11 @@
                     Config = "FantasyAllsvenskan";
                     break;
             }
-        }
+        } 
+
+        #endregion
+
+        #region Data loading
 
         private async Task LoadGameweeks()
         {
@@ -168,5 +181,43 @@
                     Mapper.Map<List<List<FixtureViewModel>>>(groupedFixtures)));
             }
         }
+
+        #endregion
+
+        #region Actions
+
+        public void SetFixtures()
+        {
+
+        }
+
+        private void DisplayTeamDetails(TeamViewModel teamToDisplay)
+        {
+            OpenTeamDetails = true;
+            TeamToDisplay = teamToDisplay;
+        }
+
+        private void IncreaseGameweek()
+        {
+            if (MinGameweek == 0)
+            {
+                MinGameweek = NextGameweek + 1;
+            }
+            else
+            {
+                MinGameweek += 1;
+            }
+        }
+
+        private void DecreaseGameweek()
+        {
+            if (MinGameweek == 1) return;
+            else
+            {
+                MinGameweek -= 1;
+            }
+        }
+
+        #endregion
     }
 }
