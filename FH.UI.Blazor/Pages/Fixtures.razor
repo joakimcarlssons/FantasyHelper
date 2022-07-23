@@ -2,9 +2,9 @@
 @using FH.UI.Blazor.Components.Fixtures;
 
 <div class="fixtures-wrapper">
-    @if (Teams == null)
+    @if (!Teams?.Any() ?? true)
     {
-        <p>Loading fixtures...</p>
+        <p>@ErrorMessage</p>
     }
     else
     {
@@ -16,7 +16,7 @@
             <div class="team__fixtures">
                 @for (int i = (MinGameweek == 0 ? NextGameweek : MinGameweek); i <= (MinGameweek == 0 ? NextGameweek : MinGameweek) + GameweeksToDisplay; i++)
                 {
-                    <FixtureDisplay GameweekNumber="i" />
+                    <FixtureDisplay GameweekNumber="i" NextGameweek="NextGameweek" />
                 }
             </div>
             <span>
@@ -32,7 +32,7 @@
                 <div class="team__fixtures">
                     @for (int i = (MinGameweek == 0 ? NextGameweek : MinGameweek); i <= (MinGameweek == 0 ? NextGameweek : MinGameweek) + GameweeksToDisplay; i++)
                     {
-                        <FixtureDisplay TeamId="model.Team.TeamId" Fixtures="model.Fixtures.FirstOrDefault(f => f.Any(ff => ff.GameweekId == i))?.ToList()" />
+                        <FixtureDisplay TeamId="model.Team.TeamId" Fixtures="model.Fixtures.FirstOrDefault(f => f.Any(ff => ff.GameweekId == i))?.ToList()" NextGameweek="NextGameweek" />
                     }
                 </div>
             </div>

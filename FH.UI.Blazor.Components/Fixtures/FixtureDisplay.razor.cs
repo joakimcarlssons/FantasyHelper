@@ -16,6 +16,9 @@
         [Parameter]
         public int GameweekNumber { get; set; } = 0;
 
+        [Parameter]
+        public int NextGameweek { get; set; }
+
         #endregion
 
         private bool IsBlank(FixtureViewModel fixture) => fixture == null ? true : fixture?.HomeTeam?.TeamId != TeamId && fixture?.AwayTeam.TeamId != TeamId;

@@ -30,9 +30,11 @@
         public int NextGameweek => Gameweeks?.FirstOrDefault(gw => gw.IsNext)?.GameweekId ?? 1;
 
         public int MinGameweek { get; set; }
+        public int MaxGameweek { get; set; }
 
         private string SelectedFantasyGame { get; set; }
         private string Config { get; set; }
+        private string ErrorMessage { get; set; } = "Loading fixtures...";
         public bool OpenTeamDetails { get; set; } = false;
         public TeamViewModel TeamToDisplay { get; set; }
 
@@ -60,7 +62,7 @@
                 try
                 {
                     StateContainer.DataIsLoading = true;
-                    MinGameweek = 0;
+                    ResetData();
 
                     // Update selected game
                     SelectedFantasyGame = StateContainer.SelectedFantasyGame;
@@ -83,6 +85,11 @@
                 finally
                 {
                     StateContainer.DataIsLoading = false;
+                    if (!Teams?.Any() ?? true)
+                    {
+                        ErrorMessage = "Could not load fixtures. Please try again in a moment!";
+                        StateHasChanged();
+                    }
                 }
             }
         }
@@ -120,6 +127,8 @@
                 }
 
                 Gameweeks = gameweeks;
+                MinGameweek = NextGameweek;
+                MaxGameweek = Gameweeks.MaxBy(gw => gw.GameweekId).GameweekId;
             }
         }
 
@@ -186,9 +195,11 @@
 
         #region Actions
 
-        public void SetFixtures()
+        private void ResetData()
         {
-
+            ErrorMessage = "Loading fixtures...";
+            MinGameweek = 0;
+            Teams = new List<Team>();
         }
 
         private void DisplayTeamDetails(TeamViewModel teamToDisplay)
@@ -203,6 +214,7 @@
             {
                 MinGameweek = NextGameweek + 1;
             }
+            else if (MinGameweek + GameweeksToDisplay >= MaxGameweek) { return; }
             else
             {
                 MinGameweek += 1;
