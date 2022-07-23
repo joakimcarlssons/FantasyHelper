@@ -143,6 +143,7 @@ namespace FH.FA.FixturesProvider.Data
             // Team with better placing => 1 point
             // Team with worse placing => 2 points
             //      If placing is > 4 places => 3 points
+            //      If placing is > 8 places => Team leading -1 point
 
             try
             {
@@ -169,7 +170,7 @@ namespace FH.FA.FixturesProvider.Data
 
                     // Team with better placing => 1 point
                     // Team with worse placing => 2 points
-                    if (homeTeam.Position > awayTeam.Position)
+                    if (awayTeam.Position > homeTeam.Position)
                     {
                         fixture.AwayTeamDifficulty += 1;
 
@@ -182,6 +183,12 @@ namespace FH.FA.FixturesProvider.Data
                         {
                             fixture.HomeTeamDifficulty += 2;
                         }
+
+                        // If placing is > 8 places => Team leading -1 point
+                        if ((awayTeam.Position - homeTeam.Position) > 8)
+                        {
+                            fixture.AwayTeamDifficulty -= 1;
+                        }
                     }
                     else
                     {
@@ -191,10 +198,16 @@ namespace FH.FA.FixturesProvider.Data
                         if ((homeTeam.Position - awayTeam.Position) > 4)
                         {
                             fixture.AwayTeamDifficulty += 3;
-                        }
+                        }  
                         else
                         {
                             fixture.AwayTeamDifficulty += 2;
+                        }
+
+                        // If placing is > 8 places => Team leading -1 point
+                        if ((homeTeam.Position - awayTeam.Position) > 8)
+                        {
+                            fixture.HomeTeamDifficulty -= 1;
                         }
                     }
 
