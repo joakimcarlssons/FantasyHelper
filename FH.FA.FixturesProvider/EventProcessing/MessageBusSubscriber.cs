@@ -6,9 +6,10 @@ namespace FH.FA.FixturesProvider.EventProcessing
     {
         #region Private Members
 
+        private const string exchangeName = "trigger";
+
         private IConnection _connection;
         private IModel _channel;
-        private string _queueName;
 
         private readonly RabbitMQOptions _rabbitMQConfig;
         private readonly IEventProcessor _eventProcessor;
@@ -51,8 +52,8 @@ namespace FH.FA.FixturesProvider.EventProcessing
                 _eventProcessor.ProcessEvent(message);
             };
 
-            // Start listening again
-            _channel.BasicConsume(queue: _queueName, autoAck: true, consumer: consumer);
+            // Start consume again
+            Consume(consumer);
 
             return Task.CompletedTask;
         }
@@ -83,14 +84,25 @@ namespace FH.FA.FixturesProvider.EventProcessing
 
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
-            _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
-            _queueName = _channel.QueueDeclare().QueueName;
-            _channel.QueueBind(queue: _queueName, exchange: "trigger", routingKey: "");
+            _channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Fanout);
 
             Console.WriteLine("--> Listening on Message bus...");
 
             // Subscribe to shutdown event
             _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
+        }
+
+        private void Consume(EventingBasicConsumer consumer)
+        {
+            // Verify existance of queues
+            // --> We list the events we expect on this subscriber and make sure queues are open for them
+            var teamsPublishedQueue = EventType.TeamsPublished.ConvertEventTypeToEventString();
+
+            _channel.QueueDeclare(teamsPublishedQueue, true, false, false, null);
+            _channel.QueueBind(queue: teamsPublishedQueue, exchange: exchangeName, routingKey: teamsPublishedQueue);
+
+            // Start consumtion of expected events
+            _channel.BasicConsume(queue: teamsPublishedQueue, autoAck: true, consumer: consumer);
         }
 
         private void RabbitMQ_ConnectionShutdown(object? sender, ShutdownEventArgs e)

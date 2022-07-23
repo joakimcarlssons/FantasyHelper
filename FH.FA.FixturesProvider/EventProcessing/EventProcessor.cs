@@ -25,7 +25,7 @@ namespace FH.FA.FixturesProvider.EventProcessing
 
         #endregion
 
-        public override async Task ProcessEvent(string message)
+        public override async Task<string> ProcessEvent(string message)
         {
             using var scope = _scopeFactory.CreateScope();
             var dataLoader = scope.ServiceProvider.GetService<IDataLoader>();
@@ -36,31 +36,32 @@ namespace FH.FA.FixturesProvider.EventProcessing
             {
                 case EventType.TeamsPublished:
                     {
-                        Console.WriteLine("--> TeamsPublished event detected!");
+                        Console.WriteLine("--> Teams_Published event detected!");
 
-                        AddOrUpdateTeams(message);
+                        // Extract message
+                        var teamsPublishedDto = JsonSerializer.Deserialize<TeamsPublishedDto>(message);
+
+                        // Handle data from message
+                        AddOrUpdateTeams(teamsPublishedDto);
                         await dataLoader.LoadFixtureData();
                         await dataLoader.LoadLeagueData();
                         dataLoader.UpdateFixtureDifficulties();
 
-                        break;
+                        return teamsPublishedDto.Event;
                     }
                 default:
                     Console.WriteLine("--> No expected event was found..");
-                    break;
+                    return null;
             }
         }
 
         #region Private Methods
 
-        private void AddOrUpdateTeams(string message)
+        private void AddOrUpdateTeams(TeamsPublishedDto teamsPublishedDto)
         {
             // Get repository
             using var scope = _scopeFactory.CreateScope();
             var repo = scope.ServiceProvider.GetService<IRepository>();
-
-            // Extract DTO
-            var teamsPublishedDto = JsonSerializer.Deserialize<TeamsPublishedDto>(message);
 
             try
             {

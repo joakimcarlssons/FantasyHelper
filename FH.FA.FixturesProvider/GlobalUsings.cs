@@ -17,3 +17,4 @@ global using FH.FA.FixturesProvider.Dtos;
 
 global using FH.EventProcessing;
 global using FH.EventProcessing.Dtos;
+global using FH.EventProcessing.Helpers;

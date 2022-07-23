@@ -33,7 +33,7 @@
             if (_connection.IsOpen)
             {
                 Console.WriteLine("--> RabbitMQ connection is open, sending message...");
-                SendMessage(message, exchangeName, "");
+                SendMessage(message, exchangeName, teamsPublishedDto.Event, teamsPublishedDto.Event);
             }
             else
             {
@@ -42,10 +42,14 @@
             }
         }
 
-        public void SendMessage(string message, string exchange, string routingKey)
+        public void SendMessage(string message, string exchange, string routingKey, string queueName)
         {
             // Encode message
             var body = Encoding.UTF8.GetBytes(message);
+
+            // Verify that queue exists
+            _channel.QueueDeclare(queueName, true, false, false, null);
+            _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routingKey);
 
             // Publish message
             _channel.BasicPublish(
