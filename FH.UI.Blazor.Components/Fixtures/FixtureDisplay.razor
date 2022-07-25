@@ -1,7 +1,12 @@
 ﻿@if(GameweekNumber != 0)
 {
     <div class="fixture-container">
-        <span class="fixture-container__gameweek" style="font-weight: @(NextGameweek == GameweekNumber ? "var(--fw-bold);" : "var(--fw-normal);") text-decoration: @(GameweekNumber < NextGameweek ? "line-through;" : "")">@GameweekNumber</span>
+        <span 
+            class="fixture-container__gameweek"
+            @onclick="(async () => await GameweekClicked())"
+            style="font-weight: @(NextGameweek == GameweekNumber ? "var(--fw-bold);" : "var(--fw-normal);") text-decoration: @(GameweekNumber < NextGameweek ? "line-through;" : "")">
+            <p>@GameweekNumber</p>
+        </span>
     </div>
 }
 else

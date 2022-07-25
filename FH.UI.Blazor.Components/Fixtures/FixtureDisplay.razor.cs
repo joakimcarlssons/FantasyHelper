@@ -19,6 +19,9 @@
         [Parameter]
         public int NextGameweek { get; set; }
 
+        [Parameter]
+        public EventCallback<int> OnGameweekClicked { get; set; }
+
         #endregion
 
         private bool IsBlank(FixtureViewModel fixture) => fixture == null ? true : fixture?.HomeTeam?.TeamId != TeamId && fixture?.AwayTeam.TeamId != TeamId;
@@ -35,6 +38,11 @@
             var fixtureDifficulty = IsHome(fixture) ? fixture.HomeTeam.Difficulty : fixture.AwayTeam.Difficulty;
             if (fixtureDifficulty > 4) return "var(--color-fixture-gray)";
             else return "var(--color-black)";
+        }
+
+        private async Task GameweekClicked()
+        {
+            await OnGameweekClicked.InvokeAsync(GameweekNumber);
         }
     }
 }

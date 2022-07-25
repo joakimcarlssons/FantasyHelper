@@ -44,13 +44,15 @@
         cursor: pointer;
     }
 
-    .team__fixtures-wrapper span:first-child {
-        grid-column: 2;
-    }
+        .team__fixtures-wrapper span:first-child {
+            grid-column: 2;
+            margin-bottom: 1rem;
+        }
 
-    .team__fixtures-wrapper span:last-child {
-        grid-column: 4;
-    }
+        .team__fixtures-wrapper span:last-child {
+            grid-column: 4;
+            margin-bottom: 1rem;
+        }
 
     .team__fixtures {
         grid-column: 3;

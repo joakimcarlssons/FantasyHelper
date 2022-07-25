@@ -232,6 +232,23 @@
             }
         }
 
+        private void OnGameweekClicked(int gameweek)
+        {
+            // Check that we don't display more gameweeks than those existing
+            if (gameweek + GameweeksToDisplay > MaxGameweek)
+            {
+                MinGameweek = MaxGameweek - GameweeksToDisplay;
+            }
+            else if (gameweek - GameweeksToDisplay < 1)
+            {
+                MinGameweek = 1;
+            }
+            else
+            {
+                MinGameweek = gameweek;
+            }
+        }
+
         #endregion
     }
 }

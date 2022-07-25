@@ -16,7 +16,7 @@
             <div class="team__fixtures">
                 @for (int i = (MinGameweek == 0 ? NextGameweek : MinGameweek); i <= (MinGameweek == 0 ? NextGameweek : MinGameweek) + GameweeksToDisplay; i++)
                 {
-                    <FixtureDisplay GameweekNumber="i" NextGameweek="NextGameweek" />
+                    <FixtureDisplay GameweekNumber="i" NextGameweek="NextGameweek" OnGameweekClicked="OnGameweekClicked" />
                 }
             </div>
             <span>
