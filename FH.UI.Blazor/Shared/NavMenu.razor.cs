@@ -5,7 +5,10 @@
         [Inject]
         public StateContainer StateContainer { get; set; }
 
-        protected override void OnInitialized()
+        [Inject]
+        public IJSRuntime JS { get; set; }
+
+        protected override async Task OnInitializedAsync()
         {
             StateContainer.OnChange += StateHasChanged;
         }
@@ -47,9 +50,10 @@
             "Fantasy Allsvenskan"
         }; 
 
-        public void OnFantasyChanged(string value)
+        public async Task OnFantasyChanged(string value)
         {
             StateContainer.SelectedFantasyGame = value;
+            await JS.SaveToLocalStorage(LocalStorageKeys.ChosenFantasy, value);
         }
 
         #endregion

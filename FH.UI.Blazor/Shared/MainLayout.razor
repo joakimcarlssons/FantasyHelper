@@ -16,8 +16,28 @@
 </div>
 
 @code {
-    protected override void OnInitialized()
+
+    [Inject]
+    public IJSRuntime JS { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
+        // Set selected fantasy game
+        if (StateContainer.SelectedFantasyGame == null)
+        {
+            var chosenFantasy = await JS.LoadFromLocalStorage<string>(LocalStorageKeys.ChosenFantasy);
+            if (chosenFantasy == null)
+            {
+                // If no game is selected, set default to FPL
+                StateContainer.SelectedFantasyGame = "FPL";
+            }
+            else
+            {
+                // Else set the game to the one stored in local storage
+                StateContainer.SelectedFantasyGame = chosenFantasy.TrimStorageStrings();
+            }
+        }
+
         StateContainer.OnChange += StateHasChanged;
     }
 

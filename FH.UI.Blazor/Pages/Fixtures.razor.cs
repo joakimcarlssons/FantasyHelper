@@ -18,6 +18,9 @@
         [Inject]
         public StateContainer StateContainer { get; set; }
 
+        [Inject]
+        public IJSRuntime JS { get; set; }
+
         #endregion
 
         #region Properties
@@ -57,15 +60,14 @@
             OpenTeamDetails = false;
 
             // If the selected game has been updated
-            if (StateContainer.SelectedFantasyGame != SelectedFantasyGame || firstRender)
+            if (StateContainer.SelectedFantasyGame != SelectedFantasyGame)
             {
                 try
                 {
+                    SelectedFantasyGame = StateContainer.SelectedFantasyGame;
                     StateContainer.DataIsLoading = true;
                     ResetData();
 
-                    // Update selected game
-                    SelectedFantasyGame = StateContainer.SelectedFantasyGame;
 
                     // Update configs
                     SetConfigs();

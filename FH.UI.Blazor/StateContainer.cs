@@ -26,7 +26,7 @@
         private string? selectedFantasyGame;
         public string SelectedFantasyGame
         {
-            get => selectedFantasyGame ?? "FPL";
+            get => selectedFantasyGame;
             set
             {
                 if (selectedFantasyGame == value) return;
