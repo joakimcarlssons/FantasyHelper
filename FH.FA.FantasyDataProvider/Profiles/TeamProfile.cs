@@ -13,9 +13,6 @@
 
             // Used when returning a player
             CreateMap<Team, PlayerTeamReadDto>();
-
-            // Used for message publishing
-            CreateMap<ExternalTeamDto, TeamsPublishedTeamDto>();
         }
     }
 }

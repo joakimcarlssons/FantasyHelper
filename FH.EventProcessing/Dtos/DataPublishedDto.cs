@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace FH.EventProcessing.Dtos
 {
-    public class PlayersPublishedDto
+    public class DataPublishedDto<T>
     {
+        public string Event { get; set; }
+        public EventSource Source { get; set; }
+        public T Data { get; set; }
     }
 }

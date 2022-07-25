@@ -1,4 +1,13 @@
 ﻿@page "/planner"
 
-<div class="planner-wrapper">
+<div class="planner-nav">
+
+    @if (!StateContainer.DataIsLoading)
+    {
+        <AddPlannerButton />
+    }
+
+</div>
+<div class="common-wrapper planner-wrapper">
+
 </div>

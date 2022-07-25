@@ -12,4 +12,10 @@ namespace FH.EventProcessing
         PlayersPublished,
         Undetermined
     }
+
+    public enum EventSource
+    {
+        FPL,
+        FantasyAllsvenskan
+    }
 }

@@ -16,4 +16,6 @@ global using FantasyHelper.FA.DataProvider.Data;
 global using FH.FA.FantasyDataProvider.Config;
 global using FH.FA.FantasyDataProvider.MessagePublishers;
 
+global using FH.EventProcessing;
 global using FH.EventProcessing.Dtos;
+global using FH.EventProcessing.Helpers;

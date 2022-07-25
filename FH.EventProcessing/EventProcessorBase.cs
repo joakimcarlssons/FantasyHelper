@@ -10,12 +10,12 @@ namespace FH.EventProcessing
         public virtual EventType DetermineEvent(string message)
         {
             var eventType = JsonSerializer.Deserialize<GenericEventDto>(message);
-            switch (eventType.Event)
+            return eventType.Event switch
             {
-                case "Teams_Published": return EventType.TeamsPublished;
-                case "Players_Published": return EventType.PlayersPublished;
-                default: return EventType.Undetermined;
-            }
+                "Teams_Published" => EventType.TeamsPublished,
+                "Players_Published" => EventType.PlayersPublished,
+                _ => EventType.Undetermined,
+            };
         }
 
         public abstract Task<string> ProcessEvent(string message);

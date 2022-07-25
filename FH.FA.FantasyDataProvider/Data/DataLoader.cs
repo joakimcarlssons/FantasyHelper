@@ -39,17 +39,16 @@
                 if (response.IsSuccessStatusCode)
                 {
                     var data = JsonSerializer.Deserialize<ExternalRootDto>(await response.Content.ReadAsStringAsync());
-                    if (data == null) throw new NullReferenceException(nameof(data));
+                    if (data == null) throw new NullReferenceException(nameof(ExternalRootDto));
 
                     // Publish events with loaded data
-                    var teamsPublishedTeamDtos = _mapper.Map<IEnumerable<TeamsPublishedTeamDto>>(data.Teams);
-                    var publishedTeamsDto = new TeamsPublishedDto
+                    var teamsPublishedDto = new DataPublishedDto<IEnumerable<TeamReadDto>>
                     {
-                        Event = "Teams_Published",
-                        Teams = teamsPublishedTeamDtos
+                        Event = EventType.TeamsPublished.ConvertEventTypeToEventString(),
+                        Source = EventSource.FantasyAllsvenskan,
+                        Data = _mapper.Map<IEnumerable<TeamReadDto>>(_mapper.Map<IEnumerable<Team>>(data.Teams))
                     };
-
-                    _messagePublisher.PublishTeams(publishedTeamsDto);
+                    _messagePublisher.PublishData(teamsPublishedDto);
 
                     return data;
                 }

@@ -60,8 +60,6 @@ namespace FH.UI.Blazor.Pages
         {
             OpenTeamDetails = false;
 
-            Console.WriteLine(ConfigService.GetAllFixturesURL());
-
             // If the selected game has been updated
             if (StateContainer.SelectedFantasyGame != SelectedFantasyGame)
             {

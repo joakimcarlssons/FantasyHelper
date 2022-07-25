@@ -1,0 +1,12 @@
+﻿<div class="planner-nav-btn" @onclick="@(async () => await CreateNewPlan())">
+    <div class="planner-nav-content">
+        <span><i class="fas fa-plus"></i></span>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback CreatePlan { get; set; }
+
+    public async Task CreateNewPlan() => await CreatePlan.InvokeAsync();
+}

@@ -1,14 +1,13 @@
 ﻿@page "/fixtures"
 @using FH.UI.Blazor.Components.Fixtures;
 
-<div class="fixtures-wrapper">
+<div class="common-wrapper fixtures-wrapper">
     @if (!Teams?.Any() ?? true)
     {
         <p>@ErrorMessage</p>
     }
     else
     {
-
         <div class="team__fixtures-wrapper">
             <span>
                 <i class="fa-solid fa-angles-left" @onclick="DecreaseMultipleGameweeks"></i>

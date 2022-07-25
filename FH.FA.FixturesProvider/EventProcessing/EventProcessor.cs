@@ -7,7 +7,6 @@ namespace FH.FA.FixturesProvider.EventProcessing
     {
         #region Private Members
 
-        private readonly IMapper _mapper;
         private readonly IServiceScopeFactory _scopeFactory;
 
         #endregion
@@ -17,9 +16,8 @@ namespace FH.FA.FixturesProvider.EventProcessing
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EventProcessor(IMapper mapper, IServiceScopeFactory scopeFactory)
+        public EventProcessor(IServiceScopeFactory scopeFactory)
         {
-            _mapper = mapper;
             _scopeFactory = scopeFactory;
         }
 
@@ -39,10 +37,10 @@ namespace FH.FA.FixturesProvider.EventProcessing
                         Console.WriteLine("--> Teams_Published event detected!");
 
                         // Extract message
-                        var teamsPublishedDto = JsonSerializer.Deserialize<TeamsPublishedDto>(message);
+                        var teamsPublishedDto = JsonSerializer.Deserialize<DataPublishedDto<IEnumerable<Team>>>(message);
 
                         // Handle data from message
-                        AddOrUpdateTeams(teamsPublishedDto);
+                        AddOrUpdateTeams(teamsPublishedDto.Data);
                         await dataLoader.LoadFixtureData();
                         await dataLoader.LoadLeagueData();
                         dataLoader.UpdateFixtureDifficulties();
@@ -57,7 +55,7 @@ namespace FH.FA.FixturesProvider.EventProcessing
 
         #region Private Methods
 
-        private void AddOrUpdateTeams(TeamsPublishedDto teamsPublishedDto)
+        private void AddOrUpdateTeams(IEnumerable<Team> teams)
         {
             // Get repository
             using var scope = _scopeFactory.CreateScope();
@@ -65,12 +63,12 @@ namespace FH.FA.FixturesProvider.EventProcessing
 
             try
             {
-                foreach (var team in teamsPublishedDto.Teams)
+                foreach (var team in teams)
                 {
-                    repo.SaveTeam(_mapper.Map<Team>(team));
-                    repo.SaveChanges();
+                    repo.SaveTeam(team);
                 }
 
+                repo.SaveChanges();
                 Console.WriteLine("--> Provided teams was added to database");
             }
             catch (Exception ex)

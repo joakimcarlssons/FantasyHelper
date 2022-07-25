@@ -1,3 +1,7 @@
 ﻿.planner-wrapper {
 
 }
+
+.planner-nav {
+    display: flex;
+}

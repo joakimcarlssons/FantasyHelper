@@ -26,14 +26,14 @@
 
         #endregion
 
-        public void PublishTeams(TeamsPublishedDto teamsPublishedDto)
+        public void PublishData<T>(DataPublishedDto<T> dataPublishedDto)
         {
-            var message = JsonSerializer.Serialize(teamsPublishedDto);
+            var message = JsonSerializer.Serialize(dataPublishedDto);
 
             if (_connection.IsOpen)
             {
                 Console.WriteLine("--> RabbitMQ connection is open, sending message...");
-                SendMessage(message, exchangeName, teamsPublishedDto.Event, teamsPublishedDto.Event);
+                SendMessage(message, exchangeName, dataPublishedDto.Event, dataPublishedDto.Event);
             }
             else
             {

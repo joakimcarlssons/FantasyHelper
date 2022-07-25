@@ -37,7 +37,7 @@
 
         public string GetAllTeamsURL() => CurrentConfigSection.GetValue<string>(FantasyConfigKeys.Teams);
 
-        public string GetFixtureByTeamURL(int teamId) => $"{ GetAllFixturesURL }/teams/{ teamId }";
+        public string GetFixtureByTeamURL(int teamId) => $"{ GetAllFixturesURL() }/team/{ teamId }";
 
         #endregion
     }

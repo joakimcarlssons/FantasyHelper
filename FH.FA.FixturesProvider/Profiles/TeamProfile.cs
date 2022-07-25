@@ -5,7 +5,6 @@
         public TeamProfile()
         {
             // Source -> Target
-            CreateMap<TeamsPublishedTeamDto, Team>();
             CreateMap<Team, FixtureTeamReadDto>();
         }
     }
