@@ -6,10 +6,10 @@
         {
             switch (difficulty)
             {
-                case 2: return "#01FC7A";
-                case 4: return "#FF1751";
-                case 5: return "#80072D";
-                default: return "#E7E7E7";
+                case 2: return "var(--color-fixture-green)";
+                case 4: return "var(--color-fixture-red)";
+                case 5: return "var(--color-fixture-darkred)";
+                default: return "var(--color-fixture-gray)";
             }
         }
 
@@ -17,9 +17,9 @@
         {
             var teamIsHome = fixture?.HomeTeam?.TeamId == teamId;
 
-            if (fixture?.HomeTeamScore == fixture?.AwayTeamScore) return "#E7E7E7";
-            else if (fixture?.HomeTeamScore > fixture?.AwayTeamScore) return teamIsHome ? "#01FC7A" : "#80072D";
-            else return teamIsHome ? "#80072D" : "#01FC7A";
+            if (fixture?.HomeTeamScore == fixture?.AwayTeamScore) return "var(--color-fixture-gray)";
+            else if (fixture?.HomeTeamScore > fixture?.AwayTeamScore) return teamIsHome ? "var(--color-fixture-green)" : "var(--color-fixture-darkred)";
+            else return teamIsHome ? "var(--color-fixture-darkred)" : "var(--color-fixture-green)";
         }
     }
 }

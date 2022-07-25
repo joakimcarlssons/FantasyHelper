@@ -17,7 +17,7 @@ else
         <div class="fixture-container">
             @foreach (var fixture in Fixtures)
             {
-                <div class="fixture-container__fixture" style="background:@SetFixtureBackground(fixture); color:@SetFixtureForeground(fixture); opacity: @(fixture.GameweekId < NextGameweek ? ".5;" : "1;")" >
+                <div class="fixture-container__fixture" style="background-color:@SetFixtureBackground(fixture); color:@SetFixtureForeground(fixture); opacity: @(fixture.GameweekId < NextGameweek ? ".5;" : "1;")" >
                     @if (IsBlank(fixture))
                     {
                         <span>-</span>

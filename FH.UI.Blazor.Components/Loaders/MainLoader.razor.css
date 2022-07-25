@@ -12,8 +12,8 @@
 .container,
 .dot-container {
     position: relative;
-    width: 100px;
-    height: 100px;
+    width: 10rem;
+    height: 10rem;
 }
 
 .container {
@@ -23,8 +23,8 @@
 
 .dot-container {
     position: absolute;
-    border: 0px solid #e1e1e1;
-    border-radius: 50px;
+    border: 0px solid var(--color-darkgray);
+    border-radius: 5rem;
 }
 
     .dot-container:nth-child(2) {
@@ -45,28 +45,28 @@
 
 .dot {
     position: absolute;
-    height: 10px;
-    width: 10px;
-    background: #000;
-    border-radius: 5px;
+    height: 1rem;
+    width: 1rem;
+    background: var(--color-black);
+    border-radius: .5rem;
     transform: translate(0, 0);
 }
 
     .dot:nth-child(1) {
         top: 0;
-        left: calc(50% - 5px);
+        left: calc(50% - .5rem);
         animation: ani1 2s infinite;
     }
 
     .dot:nth-child(2) {
-        bottom: calc(28% - 5px);
-        left: calc(11% - 5px);
+        bottom: calc(28% - .5rem);
+        left: calc(11% - .5rem);
         animation: ani2 2s infinite;
     }
 
     .dot:nth-child(3) {
-        bottom: calc(28% - 5px);
-        right: calc(11% - 5px);
+        bottom: calc(28% - .5rem);
+        right: calc(11% - .5rem);
         animation: ani3 2s infinite;
     }
 
@@ -90,7 +90,7 @@
     }
 
     100% {
-        transform: translate(-40px, 67px);
+        transform: translate(-4rem, 6.7rem);
     }
 }
 
@@ -100,7 +100,7 @@
     }
 
     100% {
-        transform: translate(77px, 0);
+        transform: translate(7.7rem, 0);
     }
 }
 
@@ -110,6 +110,6 @@
     }
 
     100% {
-        transform: translate(-39px, -67px);
+        transform: translate(-3.9rem, -6.7rem);
     }
 }

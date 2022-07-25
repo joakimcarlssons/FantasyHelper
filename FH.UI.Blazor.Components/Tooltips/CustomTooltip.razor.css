@@ -1,26 +1,13 @@
 ﻿.tooltip-content {
     display: none;
-    box-shadow: 0px 1px 5px 3px rgba(0,0,0,0.32);
-    background-color: #FFF;
-    padding: .225rem;
+    box-shadow: var(--bs-full-dark);
+    background-color: var(--color-white);
+    padding: .3rem;
 }
 
 .main-content:hover + .tooltip-content {
     display: inline-block;
     position: absolute;
-/*    left: 50%;*/
-/*    margin-left: 60px;*/
     text-align: center;
     z-index: 1;
 }
-
-    /*.main-content:hover + .tooltip-content::after {
-        content: '';
-        position: absolute;
-        bottom: 100%;*/
-/*        left: 8px;*/
-        /*display: inline-block;
-        color: #fff;
-        border: 8px solid transparent;
-        border-bottom: 8px solid #FFF;
-    }*/

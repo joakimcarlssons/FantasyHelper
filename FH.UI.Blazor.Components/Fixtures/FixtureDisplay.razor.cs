@@ -26,15 +26,15 @@
 
         private string SetFixtureBackground(FixtureViewModel fixture)
         {
-            if (fixture == null) return "#E7E7E7";
+            if (fixture == null) return "var(--color-fixture-gray)";
             return IsHome(fixture) ? FixtureHelpers.GetFixtureDifficultyColor(fixture.HomeTeam.Difficulty) : FixtureHelpers.GetFixtureDifficultyColor(fixture.AwayTeam.Difficulty);
         }
 
         private string SetFixtureForeground(FixtureViewModel fixture)
         {
             var fixtureDifficulty = IsHome(fixture) ? fixture.HomeTeam.Difficulty : fixture.AwayTeam.Difficulty;
-            if (fixtureDifficulty > 4) return "#E7E7E7";
-            else return "#000000";
+            if (fixtureDifficulty > 4) return "var(--color-fixture-gray)";
+            else return "var(--color-black)";
         }
     }
 }

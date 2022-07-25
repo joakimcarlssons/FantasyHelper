@@ -3,9 +3,9 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    font-size: 11px;
+    font-size: 1.1rem;
 }
 
 .result-display__result {
-    padding: 3px 5px;
+    padding: .3rem .5rem;
 }

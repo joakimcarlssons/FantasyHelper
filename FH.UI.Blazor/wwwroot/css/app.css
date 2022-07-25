@@ -29,10 +29,10 @@ html, body {
 
 a {
     text-decoration: none;
-    color: #000;
+    color: var(--color-black);
 }
 
     a.active {
         text-decoration: underline;
-        font-weight: 700;
+        font-weight: var(--fw-bold);
     }
