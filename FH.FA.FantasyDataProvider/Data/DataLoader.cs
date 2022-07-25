@@ -42,13 +42,8 @@
                     if (data == null) throw new NullReferenceException(nameof(ExternalRootDto));
 
                     // Publish events with loaded data
-                    var teamsPublishedDto = new DataPublishedDto<IEnumerable<TeamReadDto>>
-                    {
-                        Event = EventType.TeamsPublished.ConvertEventTypeToEventString(),
-                        Source = EventSource.FantasyAllsvenskan,
-                        Data = _mapper.Map<IEnumerable<TeamReadDto>>(_mapper.Map<IEnumerable<Team>>(data.Teams))
-                    };
-                    _messagePublisher.PublishData(teamsPublishedDto);
+                    _messagePublisher.PublishData(_mapper.Map<IEnumerable<TeamReadDto>>(_mapper.Map<IEnumerable<Team>>(data.Teams)).ToPublishDataDto(EventType.TeamsPublished, EventSource.FantasyAllsvenskan));
+                    _messagePublisher.PublishData(_mapper.Map<IEnumerable<PlayerReadDto>>(_mapper.Map<IEnumerable<Player>>(data.Players)).ToPublishDataDto(EventType.PlayersPublished, EventSource.FantasyAllsvenskan));
 
                     return data;
                 }

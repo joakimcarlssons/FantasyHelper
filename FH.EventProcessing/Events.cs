@@ -10,6 +10,7 @@ namespace FH.EventProcessing
     {
         TeamsPublished,
         PlayersPublished,
+        FixturesPublished,
         Undetermined
     }
 
