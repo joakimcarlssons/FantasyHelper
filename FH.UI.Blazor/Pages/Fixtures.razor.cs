@@ -232,6 +232,18 @@
             }
         }
 
+        private void DecreaseMultipleGameweeks()
+        {
+            if (MinGameweek <= NextGameweek) MinGameweek = 1;
+            else MinGameweek = NextGameweek;
+        }
+
+        private void IncreaseMultipleGameweeks()
+        {
+            if (MinGameweek < NextGameweek) MinGameweek = NextGameweek;
+            else MinGameweek = MaxGameweek - GameweeksToDisplay;
+        }
+
         private void OnGameweekClicked(int gameweek)
         {
             // Check that we don't display more gameweeks than those existing

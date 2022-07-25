@@ -13,7 +13,7 @@
 
 .team__fixtures-wrapper {
     display: grid;
-    grid-template-columns: 80px 15px 1fr 15px;
+    grid-template-columns: 80px 25px 1fr 15px;
 }
 
     .team__fixtures-wrapper .team-name {
@@ -37,21 +37,31 @@
         align-self: center;
         justify-self: center;
         color: gray;
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 1rem;
     }
 
-    .team__fixtures-wrapper span:hover {
+    .team__fixtures-wrapper span i:hover {
         color: darkgray;
         cursor: pointer;
     }
 
         .team__fixtures-wrapper span:first-child {
             grid-column: 2;
-            margin-bottom: 1rem;
         }
 
-        .team__fixtures-wrapper span:last-child {
-            grid-column: 4;
-            margin-bottom: 1rem;
+            .team__fixtures-wrapper span:first-child i:first-child {
+                margin-right: .5rem;
+            }
+
+            .team__fixtures-wrapper span:last-child {
+                grid-column: 4;
+                margin-bottom: 1rem;
+            }
+
+        .team__fixtures-wrapper span:last-child i:last-child {
+            margin-left: .5rem;
         }
 
     .team__fixtures {
