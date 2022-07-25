@@ -1,13 +1,12 @@
-﻿namespace FH.UI.Blazor.Pages
+﻿using Microsoft.Extensions.Options;
+
+namespace FH.UI.Blazor.Pages
 {
     public record FixtureDisplayModel(TeamViewModel Team, List<List<FixtureViewModel>> Fixtures);
 
     public partial class Fixtures : IDisposable
     {
         #region Injections
-
-        [Inject]
-        public IConfiguration Configuration { get; set; }
 
         [Inject]
         public IMapper Mapper { get; set; }
@@ -20,6 +19,9 @@
 
         [Inject]
         public IJSRuntime JS { get; set; }
+
+        [Inject]
+        public IConfigService ConfigService { get; set; }
 
         #endregion
 
@@ -36,7 +38,6 @@
         public int MaxGameweek { get; set; }
 
         private string SelectedFantasyGame { get; set; }
-        private string Config { get; set; }
         private string ErrorMessage { get; set; } = "Loading fixtures...";
         public bool OpenTeamDetails { get; set; } = false;
         public TeamViewModel TeamToDisplay { get; set; }
@@ -59,6 +60,8 @@
         {
             OpenTeamDetails = false;
 
+            Console.WriteLine(ConfigService.GetAllFixturesURL());
+
             // If the selected game has been updated
             if (StateContainer.SelectedFantasyGame != SelectedFantasyGame)
             {
@@ -67,10 +70,6 @@
                     SelectedFantasyGame = StateContainer.SelectedFantasyGame;
                     StateContainer.DataIsLoading = true;
                     ResetData();
-
-
-                    // Update configs
-                    SetConfigs();
 
                     // Load data
                     await LoadGameweeks();
@@ -96,26 +95,13 @@
             }
         }
 
-        private void SetConfigs()
-        {
-            switch (StateContainer.SelectedFantasyGame)
-            {
-                case "FPL":
-                    Config = "FPL";
-                    break;
-                case "Fantasy Allsvenskan":
-                    Config = "FantasyAllsvenskan";
-                    break;
-            }
-        } 
-
         #endregion
 
         #region Data loading
 
         private async Task LoadGameweeks()
         {
-            var response = await HttpClient.GetAsync(Configuration[$"{ Config }:Gameweeks"]);
+            var response = await HttpClient.GetAsync(ConfigService.GetAllGameweeksURL());
             if (response.IsSuccessStatusCode)
             {
                 var gameweeks = JsonSerializer.Deserialize<IEnumerable<Gameweek>>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions
@@ -136,7 +122,7 @@
 
         private async Task LoadTeams()
         {
-            var response = await HttpClient.GetAsync(Configuration[$"{ Config }:Teams"]);
+            var response = await HttpClient.GetAsync(ConfigService.GetAllTeamsURL());
             if (response.IsSuccessStatusCode)
             {
                 var teams = JsonSerializer.Deserialize<IEnumerable<Team>>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions
@@ -155,7 +141,7 @@
 
         private async Task LoadFixturesForTeam(Team team)
         {
-            var response = await HttpClient.GetAsync($"{ Configuration[$"{ Config }:Fixtures"] }/team/{ team.TeamId }");
+            var response = await HttpClient.GetAsync(ConfigService.GetFixtureByTeamURL(team.TeamId));
             if (response.IsSuccessStatusCode)
             {
                 var fixtures = JsonSerializer.Deserialize<IEnumerable<Fixture>>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
