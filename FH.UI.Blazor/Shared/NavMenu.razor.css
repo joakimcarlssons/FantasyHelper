@@ -39,6 +39,7 @@ header {
     }
 
         header ul li {
+            font-size: 1.3rem;
             margin: 0 1rem;
             list-style: none;
             text-decoration: none;
