@@ -1,6 +1,3 @@
-using FH.FA.DataProvider.Data;
-using System.Net;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -53,7 +50,7 @@ void ConfigureServices(IServiceCollection services)
     });
     services.AddHostedService<PeriodicDataLoader>();
 
-    services.AddSingleton<IMessageBusPublisher, MessageBusPublisher>();
+    services.AddSingleton<IMessageBusPublisher, BaseMessageBusPublisher>();
 
     // Add auto mapper
     services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

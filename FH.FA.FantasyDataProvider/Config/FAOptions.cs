@@ -1,4 +1,4 @@
-﻿namespace FH.FA.DataProvider.Config
+﻿namespace FH.FA.FantasyDataProvider.Config
 {
     public class FAOptions
     {

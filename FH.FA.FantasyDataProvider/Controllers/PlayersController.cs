@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace FH.FA.DataProvider.Controllers
+namespace FH.FA.FantasyDataProvider.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

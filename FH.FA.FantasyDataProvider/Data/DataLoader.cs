@@ -1,4 +1,4 @@
-﻿namespace FH.FA.DataProvider.Data
+﻿namespace FH.FA.FantasyDataProvider.Data
 {
     public class DataLoader : IDataLoader
     {

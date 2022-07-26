@@ -62,10 +62,11 @@
 
         public void SaveFixture(Fixture fixture)
         {
-            if (fixture == null) throw new NullReferenceException(nameof(fixture));
+            if (fixture == null) throw new NullReferenceException(nameof(Fixture));
             if (_context.Fixtures.Any(f => f.FixtureId == fixture.FixtureId))
             {
-                _context.Fixtures.Update(fixture);
+                var existingFixture = _context.Fixtures.FirstOrDefault(f => f.FixtureId == fixture.FixtureId);
+                existingFixture = fixture;
             }
             else
             {
@@ -75,10 +76,11 @@
 
         public void SaveTeam(Team team)
         {
-            if (team == null) throw new NullReferenceException(nameof(team));
+            if (team == null) throw new NullReferenceException(nameof(Team));
             if (_context.Teams.Any(t => t.TeamId == team.TeamId))
             {
-                _context.Teams.Update(team);
+                var existingTeam = _context.Teams.FirstOrDefault(t => t.TeamId == team.TeamId);
+                existingTeam = team;
             }
             else
             {

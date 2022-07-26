@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace FH.FA.FixturesProvider.EventProcessing
+﻿namespace FH.FA.FixturesProvider.EventProcessing
 {
     public class MessageBusSubscriber : BackgroundService
     {

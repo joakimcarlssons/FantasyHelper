@@ -29,7 +29,14 @@
 
         public IEnumerable<Player> GetAllPlayers()
         {
-            return _context.Players.ToList();
+            return _context.Players
+                .Include(p => p.Team)
+                    .ThenInclude(t => t.HomeFixtures)
+                        .ThenInclude(f => f.AwayTeam)
+                .Include(p => p.Team)
+                    .ThenInclude(t => t.AwayFixtures)
+                        .ThenInclude(f => f.HomeTeam)
+                .ToList();
         }
 
         public IEnumerable<Team> GetAllTeams()

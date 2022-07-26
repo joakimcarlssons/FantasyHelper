@@ -21,4 +21,8 @@
     <ProjectReference Include="..\FH.EventProcessing\FH.EventProcessing.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EventProcessing\" />
+  </ItemGroup>
+
 </Project>

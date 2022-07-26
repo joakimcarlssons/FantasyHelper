@@ -46,7 +46,7 @@ void ConfigureServices(IServiceCollection services)
 
     services.AddHttpClient<IDataLoader, DataLoader>();
     services.AddHostedService<PeriodicDataLoader>();
-    services.AddSingleton<IMessageBusPublisher, MessageBusPublisher>();
+    services.AddSingleton<IMessageBusPublisher, BaseMessageBusPublisher>();
 
     // Add auto mapper
     services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

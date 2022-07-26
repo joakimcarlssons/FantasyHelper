@@ -1,4 +1,4 @@
-﻿namespace FH.FA.DataProvider.Dtos
+﻿namespace FH.FA.FantasyDataProvider.Dtos
 {
     /// <summary>
     /// Displays a player in a <see cref="TeamReadDto"/>

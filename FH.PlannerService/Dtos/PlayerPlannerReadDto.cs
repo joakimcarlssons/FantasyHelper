@@ -1,21 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace FH.PlannerService.Models
+﻿namespace FH.PlannerService.Dtos
 {
-    public class Player
+    /// <summary>
+    /// Dto used to for displaying players in a planner view
+    /// </summary>
+    public class PlayerPlannerReadDto
     {
-        [Key]
-        public int InternalPlayerId { get; set; }
-        public int FantasyId { get; set; }
         public int PlayerId { get; set; }
-        public int TeamId { get; set; }
         public string FullName { get; set; }
         public string DisplayName { get; set; }
         public decimal Price { get; set; }
         public int Position { get; set; }
         public int? ChanceOfPlayingThisRound { get; set; }
         public int? ChanceOfPlayingNextRound { get; set; }
-
-        public Team Team { get; set; }
+        public TeamPlannerReadDto Team { get; set; }
+        public IEnumerable<FixturePlannerReadDto> Fixtures { get; set; }
     }
 }

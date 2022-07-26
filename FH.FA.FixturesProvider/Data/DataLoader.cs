@@ -42,7 +42,7 @@ namespace FH.FA.FixturesProvider.Data
                 {
                     var str = await response.Content.ReadAsStringAsync();
                     var data = JsonSerializer.Deserialize<IEnumerable<ExternalFixtureDto>>(await response.Content.ReadAsStringAsync());
-                    if (data == null) throw new NullReferenceException(nameof(data));
+                    if (data == null) throw new NullReferenceException(nameof(IEnumerable<ExternalFixtureDto>));
 
                     data.ToList().ForEach(fixture => repo.SaveFixture(_mapper.Map<Fixture>(fixture)));
                     return repo.SaveChanges();

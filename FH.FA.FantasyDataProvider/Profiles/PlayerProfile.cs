@@ -1,4 +1,4 @@
-﻿namespace FH.FA.DataProvider.Profiles
+﻿namespace FH.FA.FantasyDataProvider.Profiles
 {
     public class PlayerProfile : Profile
     {

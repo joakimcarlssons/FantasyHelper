@@ -12,8 +12,6 @@ global using FH.FPL.FantasyDataProvider.Models;
 global using FH.FPL.FantasyDataProvider.Dtos;
 global using FH.FPL.FantasyDataProvider.Dtos.External;
 global using FH.FPL.FantasyDataProvider.Config;
-global using FH.FPL.FantasyDataProvider.EventProcessing;
-
 
 global using FH.EventProcessing;
 global using FH.EventProcessing.Dtos;

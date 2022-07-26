@@ -1,4 +1,4 @@
-﻿namespace FH.FA.DataProvider.Models
+﻿namespace FH.FA.FantasyDataProvider.Models
 {
     public class Team
     {

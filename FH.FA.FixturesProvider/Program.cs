@@ -1,4 +1,5 @@
 using FH.EventProcessing;
+using FH.EventProcessing.Config;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,7 +55,7 @@ void ConfigureServices(IServiceCollection services)
     });
 
     services.AddHostedService<MessageBusSubscriber>();
-    services.AddSingleton<IMessageBusPublisher, MessageBusPublisher>();
+    services.AddSingleton<IMessageBusPublisher, BaseMessageBusPublisher>();
     services.AddSingleton<IEventProcessor, EventProcessor>();
 
     services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

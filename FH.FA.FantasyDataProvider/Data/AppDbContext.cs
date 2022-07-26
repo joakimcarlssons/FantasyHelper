@@ -1,6 +1,6 @@
-﻿using FH.FA.DataProvider.Models;
+﻿using FH.FA.FantasyDataProvider.Models;
 
-namespace FH.FA.DataProvider.Data
+namespace FH.FA.FantasyDataProvider.Data
 {
     public class AppDbContext : DbContext
     {

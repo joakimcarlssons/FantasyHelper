@@ -1,8 +1,14 @@
-﻿namespace FH.FPL.FantasyDataProvider.EventProcessing
-{
-    public class MessageBusPublisher : IMessageBusPublisher
-    {
+﻿using FH.EventProcessing.Config;
+using FH.EventProcessing.Dtos;
+using Microsoft.Extensions.Options;
+using RabbitMQ.Client;
+using System.Text;
+using System.Text.Json;
 
+namespace FH.EventProcessing
+{
+    public class BaseMessageBusPublisher : IMessageBusPublisher
+    {
         #region Private Members
 
         private const string exchangeName = "trigger";
@@ -18,9 +24,10 @@
         /// <summary>
         /// Default constructor
         /// </summary>
-        public MessageBusPublisher(IOptions<RabbitMQOptions> rabbitMQConfig)
+        public BaseMessageBusPublisher(IOptions<RabbitMQOptions> rabbitMQConfig)
         {
             _rabbitMQConfig = rabbitMQConfig.Value;
+
             InitializeRabbitMQ();
         }
 
@@ -47,9 +54,12 @@
             // Encode message
             var body = Encoding.UTF8.GetBytes(message);
 
-            // Verify that queue exists
-            _channel.QueueDeclare(queueName, true, false, false, null);
-            _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routingKey);
+            // Verify that queue exists if a queue is given
+            if (queueName != null)
+            {
+                _channel.QueueDeclare(queueName, true, false, false, null);
+                _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routingKey);
+            }
 
             // Publish message
             _channel.BasicPublish(
@@ -60,6 +70,8 @@
 
             Console.WriteLine($"--> Message sent: { message }");
         }
+
+        #region Private Members
 
         private void InitializeRabbitMQ()
         {
@@ -95,5 +107,7 @@
         {
             Console.WriteLine($"--> RabbitMQ connection shutdown");
         }
+
+        #endregion
     }
 }
