@@ -33,19 +33,19 @@ namespace FH.EventProcessing
 
         #endregion
 
-        public void PublishData<T>(DataPublishedDto<T> dataPublishedDto)
+        public void PublishData<T>(DataPublishedDto<T> data, string routingKey = "", string queueName = null)
         {
-            var message = JsonSerializer.Serialize(dataPublishedDto);
+            var message = JsonSerializer.Serialize(data);
 
             if (_connection.IsOpen)
             {
-                Console.WriteLine("--> RabbitMQ connection is open, sending message...");
-                SendMessage(message, exchangeName, dataPublishedDto.Event, dataPublishedDto.Event);
+                Console.WriteLine($"--> RabbitMQ connection is open, triggering event { data.Event }...");
+                SendMessage(message, exchangeName, routingKey, queueName);
             }
             else
             {
                 // If connection is closed
-                Console.WriteLine("--> RabbitMQ connection is closed, could not send message...");
+                Console.WriteLine($"--> RabbitMQ connection is closed, could not trigger event { data.Event }...");
             }
         }
 
@@ -68,7 +68,22 @@ namespace FH.EventProcessing
                 basicProperties: null,
                 body: body);
 
-            Console.WriteLine($"--> Message sent: { message }");
+            Console.WriteLine($"--> Message sent!");
+        }
+
+        public void SetupQueue(string queueName, bool durable, bool exclusive, bool autoDelete, IDictionary<string, object> arguments, string exchange, string routingKey)
+        {
+            _channel.QueueDeclare(
+                queue: queueName,
+                durable: durable, 
+                exclusive: exclusive, 
+                autoDelete: autoDelete, 
+                arguments: arguments);
+            _channel.QueueBind(
+                queue: queueName,
+                exchange: exchange, 
+                routingKey: routingKey,
+                arguments: arguments);
         }
 
         #region Private Members

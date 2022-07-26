@@ -7,12 +7,15 @@ global using System.Net;
 global using Microsoft.Extensions.Options;
 global using RabbitMQ.Client;
 global using System.Text;
+global using RabbitMQ.Client.Events;
+global using System.Reflection;
 
 global using FH.FA.FantasyDataProvider.Models;
 global using FH.FA.FantasyDataProvider.Dtos;
 global using FH.FA.FantasyDataProvider.Dtos.External;
 global using FH.FA.FantasyDataProvider.Data;
 global using FH.FA.FantasyDataProvider.Config;
+global using FH.FA.FantasyDataProvider.EventProcessing;
 
 global using FH.EventProcessing;
 global using FH.EventProcessing.Dtos;

@@ -508,6 +508,56 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Planner Service",
+			"item": [
+				{
+					"name": "Get all players",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}{{PlannerService_Port}}/api/planner/players",
+							"host": [
+								"{{baseURL}}{{PlannerService_Port}}"
+							],
+							"path": [
+								"api",
+								"planner",
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all players by fantasy id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}{{PlannerService_Port}}/api/planner/players/:id",
+							"host": [
+								"{{baseURL}}{{PlannerService_Port}}"
+							],
+							"path": [
+								"api",
+								"planner",
+								"players",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

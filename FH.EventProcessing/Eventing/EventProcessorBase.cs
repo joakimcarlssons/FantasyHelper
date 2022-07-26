@@ -12,6 +12,7 @@ namespace FH.EventProcessing
             var eventType = JsonSerializer.Deserialize<GenericEventDto>(message);
             return eventType.Event switch
             {
+                "Data_Load_Request" => EventType.DataLoadRequest,
                 "Teams_Published" => EventType.TeamsPublished,
                 "Players_Published" => EventType.PlayersPublished,
                 "Fixtures_Published" => EventType.FixturesPublished,

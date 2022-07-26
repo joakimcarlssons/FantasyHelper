@@ -42,6 +42,20 @@ namespace FH.PlannerService.Controllers
             }
         }
 
+        [HttpGet("{fantasyId}")]
+        public ActionResult<IEnumerable<PlayerPlannerReadDto>> GetAllPlayersByFantasyId(int fantasyId)
+        {
+            try
+            {
+                var players = _repo.GetAllPlayersByFantasyId(fantasyId);
+                return Ok(_mapper.Map<IEnumerable<PlayerPlannerReadDto>>(players));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         #endregion
     }
 }

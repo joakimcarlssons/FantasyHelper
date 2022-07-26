@@ -2,6 +2,7 @@
 {
     public enum EventType
     {
+        DataLoadRequest,
         TeamsPublished,
         PlayersPublished,
         FixturesPublished,

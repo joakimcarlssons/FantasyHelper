@@ -5,6 +5,7 @@
         #region Private Members
 
         private const string exchangeName = "trigger";
+        private string _queueName = Assembly.GetEntryAssembly().GetName().Name;
 
         private IConnection _connection;
         private IModel _channel;
@@ -51,7 +52,7 @@
             };
 
             // Start consume again
-            Consume(consumer);
+            _channel.BasicConsume(queue: _queueName, autoAck: true, consumer: consumer);
 
             return Task.CompletedTask;
         }
@@ -83,24 +84,12 @@
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
             _channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Fanout);
+            _channel.QueueBind(queue: _queueName, exchange: exchangeName, routingKey: _queueName);
 
             Console.WriteLine("--> Listening on Message bus...");
 
             // Subscribe to shutdown event
             _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
-        }
-
-        private void Consume(EventingBasicConsumer consumer)
-        {
-            // Verify existance of queues
-            // --> We list the events we expect on this subscriber and make sure queues are open for them
-            var teamsPublishedQueue = EventType.TeamsPublished.ConvertEventTypeToEventString();
-
-            _channel.QueueDeclare(teamsPublishedQueue, true, false, false, null);
-            _channel.QueueBind(queue: teamsPublishedQueue, exchange: exchangeName, routingKey: teamsPublishedQueue);
-
-            // Start consumtion of expected events
-            _channel.BasicConsume(queue: teamsPublishedQueue, autoAck: true, consumer: consumer);
         }
 
         private void RabbitMQ_ConnectionShutdown(object? sender, ShutdownEventArgs e)

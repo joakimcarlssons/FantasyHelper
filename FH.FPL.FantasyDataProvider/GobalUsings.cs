@@ -6,13 +6,17 @@ global using System.ComponentModel.DataAnnotations;
 global using RabbitMQ.Client;
 global using Microsoft.Extensions.Options;
 global using System.Text;
+global using RabbitMQ.Client.Events;
+global using System.Reflection;
 
 global using FH.FPL.FantasyDataProvider.Data;
 global using FH.FPL.FantasyDataProvider.Models;
 global using FH.FPL.FantasyDataProvider.Dtos;
 global using FH.FPL.FantasyDataProvider.Dtos.External;
 global using FH.FPL.FantasyDataProvider.Config;
+global using FH.FPL.FantasyDataProvider.EventProcessing;
 
 global using FH.EventProcessing;
 global using FH.EventProcessing.Dtos;
 global using FH.EventProcessing.Helpers;
+global using FH.EventProcessing.Config;

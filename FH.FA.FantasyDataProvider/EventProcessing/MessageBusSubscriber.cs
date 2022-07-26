@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace FH.FA.FixturesProvider.EventProcessing
+﻿namespace FH.FA.FantasyDataProvider.EventProcessing
 {
     public class MessageBusSubscriber : BackgroundService
     {

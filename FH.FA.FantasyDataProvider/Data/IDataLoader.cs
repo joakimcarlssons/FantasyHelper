@@ -4,5 +4,8 @@
     {
         Task<ExternalRootDto> LoadRootData();
         Task<bool> SaveToDatabase();
+
+        void PublishTeams(IDataProviderRepository repo);
+        void PublishPlayers(IDataProviderRepository repo);
     }
 }

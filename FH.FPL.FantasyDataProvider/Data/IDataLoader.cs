@@ -6,5 +6,9 @@
         Task<IEnumerable<ExternalFixtureDto>> LoadFixtureData();
 
         Task<bool> SaveToDatabase();
+
+        void PublishTeams(IDataProviderRepository repo);
+        void PublishPlayers(IDataProviderRepository repo);
+        void PublishFixtures(IDataProviderRepository repo);
     }
 }

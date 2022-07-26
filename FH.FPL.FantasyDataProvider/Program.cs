@@ -33,6 +33,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.SetupQueue(Assembly.GetEntryAssembly().GetName().Name);
+
 app.Run();
 
 /// <summary>
@@ -46,7 +48,9 @@ void ConfigureServices(IServiceCollection services)
 
     services.AddHttpClient<IDataLoader, DataLoader>();
     services.AddHostedService<PeriodicDataLoader>();
+    services.AddHostedService<MessageBusSubscriber>();
     services.AddSingleton<IMessageBusPublisher, BaseMessageBusPublisher>();
+    services.AddSingleton<IEventProcessor, EventProcessor>();
 
     // Add auto mapper
     services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

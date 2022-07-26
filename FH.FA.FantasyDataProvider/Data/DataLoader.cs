@@ -41,10 +41,6 @@
                     var data = JsonSerializer.Deserialize<ExternalRootDto>(await response.Content.ReadAsStringAsync());
                     if (data == null) throw new NullReferenceException(nameof(ExternalRootDto));
 
-                    // Publish events with loaded data
-                    _messagePublisher.PublishData(_mapper.Map<IEnumerable<TeamReadDto>>(_mapper.Map<IEnumerable<Team>>(data.Teams)).ToPublishDataDto(EventType.TeamsPublished, EventSource.FantasyAllsvenskan));
-                    _messagePublisher.PublishData(_mapper.Map<IEnumerable<PlayerReadDto>>(_mapper.Map<IEnumerable<Player>>(data.Players)).ToPublishDataDto(EventType.PlayersPublished, EventSource.FantasyAllsvenskan));
-
                     return data;
                 }
                 else
@@ -57,6 +53,18 @@
                 Console.WriteLine($"--> { ex.Message }");
                 throw;
             }
+        }
+
+        public void PublishPlayers(IDataProviderRepository repo)
+        {
+            var players = repo.GetAllPlayers();
+            _messagePublisher.PublishData(_mapper.Map<IEnumerable<PlayerReadDto>>(players).ToPublishDataDto(EventType.PlayersPublished, EventSource.FantasyAllsvenskan));
+        }
+
+        public void PublishTeams(IDataProviderRepository repo)
+        {
+            var teams = repo.GetAllTeams();
+            _messagePublisher.PublishData(_mapper.Map<IEnumerable<TeamReadDto>>(teams).ToPublishDataDto(EventType.TeamsPublished, EventSource.FantasyAllsvenskan));
         }
 
         /// <summary>
@@ -77,9 +85,17 @@
                 rootData.Players.ForEach(player => repo.SavePlayer(_mapper.Map<Player>(player)));
                 rootData.Teams.ForEach(team => repo.SaveTeam(_mapper.Map<Team>(team)));
                 rootData.Gameweeks.ForEach(gw => repo.SaveGameweek(_mapper.Map<Gameweek>(gw)));
+                var dbResult = repo.SaveChanges();
+
+                // Publish events with loaded data
+                if (dbResult)
+                {
+                    PublishPlayers(repo);
+                    PublishTeams(repo);
+                }
 
                 // Return result
-                return repo.SaveChanges();
+                return dbResult;
             }
             catch (Exception ex)
             {

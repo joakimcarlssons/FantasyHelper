@@ -48,9 +48,9 @@
                 // Publish events with fresh loaded data
                 if (dbResult)
                 {
-                    _messagePublisher.PublishData(_mapper.Map<IEnumerable<TeamReadDto>>(repo.GetAllTeams()).ToPublishDataDto(EventType.TeamsPublished, EventSource.FPL));
-                    _messagePublisher.PublishData(_mapper.Map<IEnumerable<PlayerReadDto>>(repo.GetAllPlayers()).ToPublishDataDto(EventType.PlayersPublished, EventSource.FPL));
-                    _messagePublisher.PublishData(_mapper.Map<IEnumerable<FixtureReadDto>>(repo.GetAllFixtures()).ToPublishDataDto(EventType.FixturesPublished, EventSource.FPL));
+                    PublishTeams(repo);
+                    PublishPlayers(repo);
+                    PublishFixtures(repo);
                 }
 
                 // Return result
@@ -108,6 +108,24 @@
             {
                 throw;
             }
+        }
+
+        public void PublishTeams(IDataProviderRepository repo)
+        {
+            var teams = repo.GetAllTeams();
+            _messagePublisher.PublishData(_mapper.Map<IEnumerable<TeamReadDto>>(teams).ToPublishDataDto(EventType.TeamsPublished, EventSource.FPL));
+        }
+
+        public void PublishPlayers(IDataProviderRepository repo)
+        {
+            var players = repo.GetAllPlayers();
+            _messagePublisher.PublishData(_mapper.Map<IEnumerable<PlayerReadDto>>(players).ToPublishDataDto(EventType.PlayersPublished, EventSource.FPL));
+        }
+
+        public void PublishFixtures(IDataProviderRepository repo)
+        {
+            var fixtures = repo.GetAllFixtures();
+            _messagePublisher.PublishData(_mapper.Map<IEnumerable<FixtureReadDto>>(fixtures).ToPublishDataDto(EventType.FixturesPublished, EventSource.FPL));
         }
     }
 }

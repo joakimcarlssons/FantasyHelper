@@ -37,6 +37,26 @@ namespace FH.FA.FixturesProvider.EventProcessing
             var eventType = base.DetermineEvent(message);
             switch (eventType)
             {
+                case EventType.DataLoadRequest:
+                    {
+                        // Extract message
+                        var dataLoadingRequestDto = JsonSerializer.Deserialize<DataPublishedDto<DataLoadingRequestDto>>(message);
+
+                        Console.WriteLine($"--> Data_Load_Request event detected from { dataLoadingRequestDto.Data.QueueName }");
+
+                        if (dataLoadingRequestDto.Source != EventSource.FantasyAllsvenskan) break;
+                        if (dataLoadingRequestDto.Data.EventType == EventType.FixturesPublished)
+                        {
+                            // If there is a request for fixtures
+                            PublishFixtures(repo);
+                        }
+                        else
+                        {
+                            Console.WriteLine("--> No data load requested from service..");
+                        }
+
+                        break;
+                    }
                 case EventType.TeamsPublished:
                     {
                         Console.WriteLine("--> Teams_Published event detected!");
@@ -52,8 +72,7 @@ namespace FH.FA.FixturesProvider.EventProcessing
                         dataLoader.UpdateFixtureDifficulties();
 
                         // Publish event with handled data
-                        var fixtures = repo.GetAllFixtures();
-                        _messagePublisher.PublishData(_mapper.Map<IEnumerable<FixtureReadDto>>(fixtures).ToPublishDataDto(EventType.FixturesPublished, EventSource.FantasyAllsvenskan));
+                        PublishFixtures(repo);
 
                         break;
                     }
@@ -64,6 +83,12 @@ namespace FH.FA.FixturesProvider.EventProcessing
         }
 
         #region Private Methods
+
+        private void PublishFixtures(IRepository repo)
+        {
+            var fixtures = repo.GetAllFixtures();
+            _messagePublisher.PublishData(_mapper.Map<IEnumerable<FixtureReadDto>>(fixtures).ToPublishDataDto(EventType.FixturesPublished, EventSource.FantasyAllsvenskan));
+        }
 
         private void AddOrUpdateTeams(IEnumerable<Team> teams, IRepository repo)
         {

@@ -1,6 +1,7 @@
 using FH.EventProcessing;
 using FH.EventProcessing.Config;
 using System.Net;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,16 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+
+app.SetupQueueAndTriggerDataLoad(new()
+{
+    new()
+    {
+        Event = EventType.DataLoadRequest.ConvertEventTypeToEventString(),
+        Source = EventSource.FantasyAllsvenskan,
+        Data = new(EventType.TeamsPublished, Assembly.GetEntryAssembly().GetName().Name)
+    }
+});
 app.Run();
 
 

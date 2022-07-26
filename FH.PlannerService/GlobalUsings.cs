@@ -7,6 +7,7 @@ global using System.Text;
 global using System.Text.Json;
 global using AutoMapper;
 global using System.Text.Json.Serialization;
+global using System.Reflection;
 
 global using FH.PlannerService.Data;
 global using FH.PlannerService.Models;

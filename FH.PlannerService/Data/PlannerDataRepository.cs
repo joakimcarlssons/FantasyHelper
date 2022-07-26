@@ -22,11 +22,6 @@
 
         public bool SaveChanges() => (_context.SaveChanges() >= 0);
 
-        public IEnumerable<Fixture> GetAllFixtures()
-        {
-            return _context.Fixtures.ToList();
-        }
-
         public IEnumerable<Player> GetAllPlayers()
         {
             return _context.Players
@@ -39,9 +34,17 @@
                 .ToList();
         }
 
-        public IEnumerable<Team> GetAllTeams()
+        public IEnumerable<Player> GetAllPlayersByFantasyId(int fantasyId)
         {
-            return _context.Teams.ToList();
+            return _context.Players
+                .Where(player => player.FantasyId == fantasyId)
+                .Include(p => p.Team)
+                    .ThenInclude(t => t.HomeFixtures)
+                        .ThenInclude(f => f.AwayTeam)
+                .Include(p => p.Team)
+                    .ThenInclude(t => t.AwayFixtures)
+                        .ThenInclude(f => f.HomeTeam)
+                .ToList();
         }
 
         public void SaveFixture(Fixture fixture)
@@ -96,21 +99,6 @@
             {
                 _context.Teams.Add(team);
             }
-        }
-
-        public IEnumerable<Team> GetAllTeamsByFantasyId(int fantasyId)
-        {
-            return _context.Teams.Where(team => team.FantasyId == fantasyId).ToList();
-        }
-
-        public IEnumerable<Player> GetAllPlayersByFantasyId(int fantasyId)
-        {
-            return _context.Players.Where(player => player.FantasyId == fantasyId).ToList();
-        }
-
-        public IEnumerable<Fixture> GetAllFixturesByFantasyId(int fantasyId)
-        {
-            return _context.Fixtures.Where(fixture => fixture.FantasyId == fantasyId).ToList();
         }
     }
 }

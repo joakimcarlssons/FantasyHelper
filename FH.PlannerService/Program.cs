@@ -24,6 +24,46 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.SetupQueueAndTriggerDataLoad(new()
+{
+    new()
+    {
+        Event = EventType.DataLoadRequest.ConvertEventTypeToEventString(),
+        Source = EventSource.FantasyAllsvenskan,
+        Data = new(EventType.TeamsPublished, Assembly.GetEntryAssembly().GetName().Name)
+    },
+    new()
+    {
+        Event = EventType.DataLoadRequest.ConvertEventTypeToEventString(),
+        Source = EventSource.FantasyAllsvenskan,
+        Data = new(EventType.PlayersPublished, Assembly.GetEntryAssembly().GetName().Name)
+    },
+    new()
+    {
+        Event = EventType.DataLoadRequest.ConvertEventTypeToEventString(),
+        Source = EventSource.FantasyAllsvenskan,
+        Data = new(EventType.FixturesPublished, Assembly.GetEntryAssembly().GetName().Name)
+    },
+    new()
+    {
+        Event = EventType.DataLoadRequest.ConvertEventTypeToEventString(),
+        Source = EventSource.FPL,
+        Data = new(EventType.TeamsPublished, Assembly.GetEntryAssembly().GetName().Name)
+    },
+    new()
+    {
+        Event = EventType.DataLoadRequest.ConvertEventTypeToEventString(),
+        Source = EventSource.FPL,
+        Data = new(EventType.PlayersPublished, Assembly.GetEntryAssembly().GetName().Name)
+    },
+    new()
+    {
+        Event = EventType.DataLoadRequest.ConvertEventTypeToEventString(),
+        Source = EventSource.FPL,
+        Data = new(EventType.FixturesPublished, Assembly.GetEntryAssembly().GetName().Name)
+    },
+});
+
 app.Run();
 
 void ConfigureServices(IServiceCollection services)
@@ -31,6 +71,7 @@ void ConfigureServices(IServiceCollection services)
     services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("PlannerInMem"));
     services.AddScoped<IRepository, PlannerDataRepository>();
 
+    services.AddSingleton<IMessageBusPublisher, BaseMessageBusPublisher>();
     services.AddHostedService<MessageBusSubscriber>();
     services.AddSingleton<IEventProcessor, EventProcessor>();
 
