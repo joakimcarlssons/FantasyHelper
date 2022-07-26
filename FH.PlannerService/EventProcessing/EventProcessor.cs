@@ -5,7 +5,6 @@
         #region Private Members
 
         private readonly IServiceScopeFactory _scopeFactory;
-        private readonly IMapper _mapper;
 
         #endregion
 
@@ -14,10 +13,9 @@
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EventProcessor(IServiceScopeFactory scopeFactory, IMapper mapper)
+        public EventProcessor(IServiceScopeFactory scopeFactory)
         {
             _scopeFactory = scopeFactory;
-            _mapper = mapper;
         }
 
         #endregion
@@ -26,6 +24,7 @@
         {
             using var scope = _scopeFactory.CreateScope();
             var repo = scope.ServiceProvider.GetService<IRepository>();
+            if (repo == null) throw new NullReferenceException(nameof(IRepository));
 
             Console.WriteLine("--> Determining incoming event...");
             var eventType = base.DetermineEvent(message);
@@ -37,6 +36,9 @@
                         var teamsPublishedDto = JsonSerializer.Deserialize<DataPublishedDto<IEnumerable<Team>>>(message);
                         if (teamsPublishedDto == null || teamsPublishedDto.Data == null) throw new NullReferenceException(nameof(DataPublishedDto<IEnumerable<Team>>));
 
+                        Console.WriteLine("--> Saving teams to db...");
+
+                        // Assign fantasy id and save data
                         foreach (var team in teamsPublishedDto.Data)
                         {
                             team.FantasyId = (int)teamsPublishedDto.Source;
@@ -44,8 +46,8 @@
                         }
 
                         repo.SaveChanges();
-                        Console.WriteLine("FPL Teams: " + repo.GetAllTeamsByFantasyId(1).Count());
-                        Console.WriteLine("Allsvenskan Teams: " + repo.GetAllTeamsByFantasyId(2).Count());
+
+                        Console.WriteLine("--> All teams were saved!");
                         break;
                     }
                 case EventType.PlayersPublished:
@@ -54,6 +56,18 @@
                         var playersPublishedDto = JsonSerializer.Deserialize<DataPublishedDto<IEnumerable<Player>>>(message);
                         if (playersPublishedDto == null || playersPublishedDto.Data == null) throw new NullReferenceException(nameof(DataPublishedDto<IEnumerable<Player>>));
 
+                        Console.WriteLine("--> Saving players to db...");
+
+                        // Assign fantasy id and save data
+                        foreach (var player in playersPublishedDto.Data)
+                        {
+                            player.FantasyId = (int)playersPublishedDto.Source;
+                            repo.SavePlayer(player);
+                        }
+
+                        repo.SaveChanges();
+
+                        Console.WriteLine("--> All players were saved!");
                         break;
                     }
                 case EventType.FixturesPublished:
@@ -62,6 +76,18 @@
                         var fixturesPublishedDto = JsonSerializer.Deserialize<DataPublishedDto<IEnumerable<Fixture>>>(message);
                         if (fixturesPublishedDto == null || fixturesPublishedDto.Data == null) throw new NullReferenceException(nameof(DataPublishedDto<IEnumerable<Fixture>>));
 
+                        Console.WriteLine("--> Saving fixtures to db...");
+
+                        // Assign fantasy id and save data
+                        foreach (var fixture in fixturesPublishedDto.Data)
+                        {
+                            fixture.FantasyId = (int)fixturesPublishedDto.Source;
+                            repo.SaveFixture(fixture);
+                        }
+
+                        repo.SaveChanges();
+
+                        Console.WriteLine("--> All fixtures were saved!");
                         break;
                     }
             }

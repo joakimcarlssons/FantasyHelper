@@ -1,8 +1,8 @@
 ﻿namespace FH.PlannerService.Profiles
 {
-    public class TeamProfile : Profile
+    public class FixtureProfile : Profile
     {
-        public TeamProfile()
+        public FixtureProfile()
         {
             // Source -> Target
         }
