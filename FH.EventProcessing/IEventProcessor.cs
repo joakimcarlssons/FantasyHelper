@@ -6,7 +6,7 @@ namespace FH.EventProcessing
 {
     public interface IEventProcessor
     {
-        Task<string> ProcessEvent(string message);
+        Task ProcessEvent(string message);
         EventType DetermineEvent(string message);
     }
 }

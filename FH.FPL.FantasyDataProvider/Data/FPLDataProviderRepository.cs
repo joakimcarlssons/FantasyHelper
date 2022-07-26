@@ -114,7 +114,7 @@
 
         public void SaveFixture(Fixture fixture)
         {
-            if (fixture == null) throw new NullReferenceException(nameof(fixture));
+            if (fixture == null) throw new NullReferenceException(nameof(Fixture));
             if (_context.Fixtures.Any(f => f.FixtureId == fixture.FixtureId))
             {
                 _context.Fixtures.Update(fixture);
@@ -127,7 +127,7 @@
 
         public void SaveGameweek(Gameweek gameweek)
         {
-            if (gameweek == null) throw new NullReferenceException(nameof(gameweek));
+            if (gameweek == null) throw new NullReferenceException(nameof(Gameweek));
             if (_context.Gameweeks.Any(gw => gw.GameweekId == gameweek.GameweekId))
             {
                 _context.Gameweeks.Update(gameweek);
@@ -140,7 +140,7 @@
 
         public void SavePlayer(Player player)
         {
-            if (player == null) throw new NullReferenceException(nameof(player));
+            if (player == null) throw new NullReferenceException(nameof(Player));
             if (_context.Players.Any(p => p.PlayerId == player.PlayerId))
             {
                 _context.Players.Update(player);
@@ -153,7 +153,7 @@
 
         public void SaveTeam(Team team)
         {
-            if (team == null) throw new NullReferenceException(nameof(team));
+            if (team == null) throw new NullReferenceException(nameof(Team));
             if (_context.Teams.Any(t => t.TeamId == team.TeamId))
             {
                 _context.Teams.Update(team);

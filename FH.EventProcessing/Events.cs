@@ -16,7 +16,7 @@ namespace FH.EventProcessing
 
     public enum EventSource
     {
-        FPL,
-        FantasyAllsvenskan
+        FPL = 1,
+        FantasyAllsvenskan = 2
     }
 }

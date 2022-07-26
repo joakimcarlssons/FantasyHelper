@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FH.UI.Blazor", "FH.UI.Blazo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FH.UI.Blazor.Components", "FH.UI.Blazor.Components\FH.UI.Blazor.Components.csproj", "{FA5E540D-C4DE-4FF9-A6CA-13F7F8B05498}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FH.PlannerService", "FH.PlannerService\FH.PlannerService.csproj", "{E9175749-C164-4EC3-A840-FBA7360FA5CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{FA5E540D-C4DE-4FF9-A6CA-13F7F8B05498}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA5E540D-C4DE-4FF9-A6CA-13F7F8B05498}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA5E540D-C4DE-4FF9-A6CA-13F7F8B05498}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9175749-C164-4EC3-A840-FBA7360FA5CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9175749-C164-4EC3-A840-FBA7360FA5CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9175749-C164-4EC3-A840-FBA7360FA5CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9175749-C164-4EC3-A840-FBA7360FA5CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{93D76954-251B-4068-8C75-6C247070679E} = {EF456631-ED45-4EE0-B80D-525604845697}
 		{0BC56E00-55E6-48AD-8F70-9CC714FBBDE6} = {43AD0414-D6E2-469F-8A7A-FBA3C397B91F}
 		{FA5E540D-C4DE-4FF9-A6CA-13F7F8B05498} = {43AD0414-D6E2-469F-8A7A-FBA3C397B91F}
+		{E9175749-C164-4EC3-A840-FBA7360FA5CE} = {EF456631-ED45-4EE0-B80D-525604845697}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7ED218D3-2439-4706-837E-38FA70CE3D06}

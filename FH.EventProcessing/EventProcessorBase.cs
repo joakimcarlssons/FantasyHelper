@@ -19,6 +19,6 @@ namespace FH.EventProcessing
             };
         }
 
-        public abstract Task<string> ProcessEvent(string message);
+        public abstract Task ProcessEvent(string message);
     }
 }

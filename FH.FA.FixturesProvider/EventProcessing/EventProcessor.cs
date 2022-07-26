@@ -27,7 +27,7 @@ namespace FH.FA.FixturesProvider.EventProcessing
 
         #endregion
 
-        public override async Task<string> ProcessEvent(string message)
+        public override async Task ProcessEvent(string message)
         {
             using var scope = _scopeFactory.CreateScope();
             var dataLoader = scope.ServiceProvider.GetService<IDataLoader>();
@@ -43,6 +43,7 @@ namespace FH.FA.FixturesProvider.EventProcessing
 
                         // Extract message
                         var teamsPublishedDto = JsonSerializer.Deserialize<DataPublishedDto<IEnumerable<Team>>>(message);
+                        if (teamsPublishedDto.Source != EventSource.FantasyAllsvenskan) break;
 
                         // Handle data from message
                         AddOrUpdateTeams(teamsPublishedDto.Data, repo);
@@ -54,11 +55,11 @@ namespace FH.FA.FixturesProvider.EventProcessing
                         var fixtures = repo.GetAllFixtures();
                         _messagePublisher.PublishData(_mapper.Map<IEnumerable<FixtureReadDto>>(fixtures).ToPublishDataDto(EventType.FixturesPublished, EventSource.FantasyAllsvenskan));
 
-                        return teamsPublishedDto.Event;
+                        break;
                     }
                 default:
                     Console.WriteLine("--> No expected event was found..");
-                    return null;
+                    break;
             }
         }
 
