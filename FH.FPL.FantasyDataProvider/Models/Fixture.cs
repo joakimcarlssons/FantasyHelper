@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FantasyHelper.FPL.DataProvider.Models
+namespace FH.FPL.FantasyDataProvider.Models
 {
     public class Fixture
     {

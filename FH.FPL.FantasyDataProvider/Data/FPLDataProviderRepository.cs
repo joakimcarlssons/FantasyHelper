@@ -1,4 +1,4 @@
-﻿namespace FantasyHelper.FPL.DataProvider.Data
+﻿namespace FH.FPL.FantasyDataProvider.Data
 {
     public class FPLDataProviderRepository : IDataProviderRepository
     {

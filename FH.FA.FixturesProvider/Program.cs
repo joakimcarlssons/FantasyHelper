@@ -54,7 +54,7 @@ void ConfigureServices(IServiceCollection services)
     });
 
     services.AddHostedService<MessageBusSubscriber>();
-
+    services.AddSingleton<IMessageBusPublisher, MessageBusPublisher>();
     services.AddSingleton<IEventProcessor, EventProcessor>();
 
     services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

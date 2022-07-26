@@ -1,4 +1,4 @@
-﻿namespace FantasyHelper.FPL.DataProvider.Dtos
+﻿namespace FH.FPL.FantasyDataProvider.Dtos
 {
     /// <summary>
     /// Team displayed in a <see cref="PlayerReadDto"/>

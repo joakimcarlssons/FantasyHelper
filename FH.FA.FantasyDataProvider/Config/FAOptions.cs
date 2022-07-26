@@ -1,4 +1,4 @@
-﻿namespace FantasyHelper.FA.DataProvider.Config
+﻿namespace FH.FA.DataProvider.Config
 {
     public class FAOptions
     {

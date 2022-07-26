@@ -1,4 +1,4 @@
-﻿namespace FantasyHelper.FA.DataProvider.Dtos.External
+﻿namespace FH.FA.DataProvider.Dtos.External
 {
     /// <summary>
     /// The Team DTO coming from FA Api

@@ -1,4 +1,4 @@
-﻿namespace FantasyHelper.FA.DataProvider.Data
+﻿namespace FH.FA.DataProvider.Data
 {
     public interface IDataProviderRepository
     {

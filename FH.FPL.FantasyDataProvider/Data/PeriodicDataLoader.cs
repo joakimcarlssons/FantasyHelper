@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 
-namespace FantasyHelper.FPL.DataProvider.Data
+namespace FH.FPL.FantasyDataProvider.Data
 {
     /// <summary>
     /// Handling the background service of periodically fetching and updating data from FPL

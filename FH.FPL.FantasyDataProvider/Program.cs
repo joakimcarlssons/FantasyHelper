@@ -46,6 +46,7 @@ void ConfigureServices(IServiceCollection services)
 
     services.AddHttpClient<IDataLoader, DataLoader>();
     services.AddHostedService<PeriodicDataLoader>();
+    services.AddSingleton<IMessageBusPublisher, MessageBusPublisher>();
 
     // Add auto mapper
     services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -57,4 +58,5 @@ void ConfigureServices(IServiceCollection services)
 void SetupConfigs(WebApplicationBuilder builder)
 {
     builder.Services.Configure<FPLOptions>(builder.Configuration.GetSection("FPL"));
+    builder.Services.Configure<RabbitMQOptions>(builder.Configuration.GetSection("RabbitMQ"));
 }

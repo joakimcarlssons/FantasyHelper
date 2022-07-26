@@ -1,4 +1,4 @@
-using FantasyHelper.FA.DataProvider.Data;
+using FH.FA.DataProvider.Data;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);

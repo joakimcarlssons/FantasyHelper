@@ -1,6 +1,6 @@
-﻿using FantasyHelper.FPL.DataProvider.Dtos.External;
+﻿using FH.FPL.FantasyDataProvider.Dtos.External;
 
-namespace FantasyHelper.FPL.DataProvider.Profiles
+namespace FH.FPL.FantasyDataProvider.Profiles
 {
     public class PlayerProfile : Profile
     {

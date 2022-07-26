@@ -1,4 +1,4 @@
-﻿namespace FantasyHelper.FPL.DataProvider.Dtos.External
+﻿namespace FH.FPL.FantasyDataProvider.Dtos.External
 {
     public class ExternalFixtureDto
     {

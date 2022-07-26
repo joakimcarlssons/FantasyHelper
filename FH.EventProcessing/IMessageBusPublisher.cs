@@ -1,4 +1,6 @@
-﻿namespace FH.FA.FantasyDataProvider.MessagePublishers
+﻿using FH.EventProcessing.Dtos;
+
+namespace FH.EventProcessing
 {
     public interface IMessageBusPublisher
     {

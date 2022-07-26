@@ -14,6 +14,7 @@ namespace FH.EventProcessing
             {
                 "Teams_Published" => EventType.TeamsPublished,
                 "Players_Published" => EventType.PlayersPublished,
+                "Fixtures_Published" => EventType.FixturesPublished,
                 _ => EventType.Undetermined,
             };
         }

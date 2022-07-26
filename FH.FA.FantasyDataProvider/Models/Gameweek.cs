@@ -1,4 +1,4 @@
-﻿namespace FantasyHelper.FA.DataProvider.Models
+﻿namespace FH.FA.DataProvider.Models
 {
     public class Gameweek
     {

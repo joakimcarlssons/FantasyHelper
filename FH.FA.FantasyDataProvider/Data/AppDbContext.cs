@@ -1,6 +1,6 @@
-﻿using FantasyHelper.FA.DataProvider.Models;
+﻿using FH.FA.DataProvider.Models;
 
-namespace FantasyHelper.FA.DataProvider.Data
+namespace FH.FA.DataProvider.Data
 {
     public class AppDbContext : DbContext
     {

@@ -1,4 +1,4 @@
-﻿namespace FantasyHelper.FPL.DataProvider.Models
+﻿namespace FH.FPL.FantasyDataProvider.Models
 {
     /// <summary>
     /// 

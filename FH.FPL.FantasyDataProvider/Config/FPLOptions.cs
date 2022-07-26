@@ -1,4 +1,4 @@
-﻿namespace FantasyHelper.FPL.DataProvider.Config
+﻿namespace FH.FPL.FantasyDataProvider.Config
 {
     public class FPLOptions
     {

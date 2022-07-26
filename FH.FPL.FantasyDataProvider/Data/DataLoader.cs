@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-
-namespace FantasyHelper.FPL.DataProvider.Data
+﻿namespace FH.FPL.FantasyDataProvider.Data
 {
     public class DataLoader : IDataLoader
     {
@@ -10,6 +8,7 @@ namespace FantasyHelper.FPL.DataProvider.Data
         private readonly FPLOptions _fplConfig;
         private readonly IMapper _mapper;
         private readonly IServiceScopeFactory _scopeFactory;
+        private readonly IMessageBusPublisher _messagePublisher;
 
         #endregion
 
@@ -18,12 +17,13 @@ namespace FantasyHelper.FPL.DataProvider.Data
         /// <summary>
         /// Default constructor
         /// </summary>
-        public DataLoader(HttpClient httpClient, IOptions<FPLOptions> fplConfig, IMapper mapper, IServiceScopeFactory scopeFactory)
+        public DataLoader(HttpClient httpClient, IOptions<FPLOptions> fplConfig, IMapper mapper, IServiceScopeFactory scopeFactory, IMessageBusPublisher messagePublisher)
         {
             _httpClient = httpClient;
             _fplConfig = fplConfig.Value;
             _mapper = mapper;
             _scopeFactory = scopeFactory;
+            _messagePublisher = messagePublisher;
         }
 
         public async Task<bool> SaveToDatabase()
@@ -43,9 +43,18 @@ namespace FantasyHelper.FPL.DataProvider.Data
                 rootData.Teams.ForEach(team => repo.SaveTeam(_mapper.Map<Team>(team)));
                 rootData.Gameweeks.ForEach(gw => repo.SaveGameweek(_mapper.Map<Gameweek>(gw)));
                 fixtureData.ToList().ForEach(fixture => repo.SaveFixture(_mapper.Map<Fixture>(fixture)));
+                var dbResult = repo.SaveChanges();
+
+                // Publish events with fresh loaded data
+                if (dbResult)
+                {
+                    _messagePublisher.PublishData(_mapper.Map<IEnumerable<TeamReadDto>>(repo.GetAllTeams()).ToPublishDataDto(EventType.TeamsPublished, EventSource.FPL));
+                    _messagePublisher.PublishData(_mapper.Map<IEnumerable<PlayerReadDto>>(repo.GetAllPlayers()).ToPublishDataDto(EventType.PlayersPublished, EventSource.FPL));
+                    _messagePublisher.PublishData(_mapper.Map<IEnumerable<FixtureReadDto>>(repo.GetAllFixtures()).ToPublishDataDto(EventType.FixturesPublished, EventSource.FPL));
+                }
 
                 // Return result
-                return repo.SaveChanges();
+                return dbResult;
             }
             catch (Exception ex)
             {

@@ -1,4 +1,4 @@
-﻿namespace FantasyHelper.FPL.DataProvider.Profiles
+﻿namespace FH.FPL.FantasyDataProvider.Profiles
 {
     public class TeamProfile : Profile
     {

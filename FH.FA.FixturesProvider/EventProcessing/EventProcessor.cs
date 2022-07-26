@@ -8,6 +8,8 @@ namespace FH.FA.FixturesProvider.EventProcessing
         #region Private Members
 
         private readonly IServiceScopeFactory _scopeFactory;
+        private readonly IMessageBusPublisher _messagePublisher;
+        private readonly IMapper _mapper;
 
         #endregion
 
@@ -16,9 +18,11 @@ namespace FH.FA.FixturesProvider.EventProcessing
         /// <summary>
         /// Default constructor
         /// </summary>
-        public EventProcessor(IServiceScopeFactory scopeFactory)
+        public EventProcessor(IServiceScopeFactory scopeFactory, IMessageBusPublisher messagePublisher, IMapper mapper)
         {
             _scopeFactory = scopeFactory;
+            _messagePublisher = messagePublisher;
+            _mapper = mapper;
         }
 
         #endregion
@@ -27,6 +31,7 @@ namespace FH.FA.FixturesProvider.EventProcessing
         {
             using var scope = _scopeFactory.CreateScope();
             var dataLoader = scope.ServiceProvider.GetService<IDataLoader>();
+            var repo = scope.ServiceProvider.GetService<IRepository>();
 
             Console.WriteLine("--> Determining incoming event...");
             var eventType = base.DetermineEvent(message);
@@ -40,10 +45,14 @@ namespace FH.FA.FixturesProvider.EventProcessing
                         var teamsPublishedDto = JsonSerializer.Deserialize<DataPublishedDto<IEnumerable<Team>>>(message);
 
                         // Handle data from message
-                        AddOrUpdateTeams(teamsPublishedDto.Data);
+                        AddOrUpdateTeams(teamsPublishedDto.Data, repo);
                         await dataLoader.LoadFixtureData();
                         await dataLoader.LoadLeagueData();
                         dataLoader.UpdateFixtureDifficulties();
+
+                        // Publish event with handled data
+                        var fixtures = repo.GetAllFixtures();
+                        _messagePublisher.PublishData(_mapper.Map<IEnumerable<FixtureReadDto>>(fixtures).ToPublishDataDto(EventType.FixturesPublished, EventSource.FantasyAllsvenskan));
 
                         return teamsPublishedDto.Event;
                     }
@@ -55,12 +64,8 @@ namespace FH.FA.FixturesProvider.EventProcessing
 
         #region Private Methods
 
-        private void AddOrUpdateTeams(IEnumerable<Team> teams)
+        private void AddOrUpdateTeams(IEnumerable<Team> teams, IRepository repo)
         {
-            // Get repository
-            using var scope = _scopeFactory.CreateScope();
-            var repo = scope.ServiceProvider.GetService<IRepository>();
-
             try
             {
                 foreach (var team in teams)

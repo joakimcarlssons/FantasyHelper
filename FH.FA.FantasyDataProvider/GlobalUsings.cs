@@ -8,11 +8,11 @@ global using Microsoft.Extensions.Options;
 global using RabbitMQ.Client;
 global using System.Text;
 
-global using FantasyHelper.FA.DataProvider.Models;
-global using FantasyHelper.FA.DataProvider.Config;
-global using FantasyHelper.FA.DataProvider.Dtos;
-global using FantasyHelper.FA.DataProvider.Dtos.External;
-global using FantasyHelper.FA.DataProvider.Data;
+global using FH.FA.DataProvider.Models;
+global using FH.FA.DataProvider.Config;
+global using FH.FA.DataProvider.Dtos;
+global using FH.FA.DataProvider.Dtos.External;
+global using FH.FA.DataProvider.Data;
 global using FH.FA.FantasyDataProvider.Config;
 global using FH.FA.FantasyDataProvider.MessagePublishers;
 

@@ -1,4 +1,4 @@
-﻿namespace FantasyHelper.FA.DataProvider.Dtos
+﻿namespace FH.FA.DataProvider.Dtos
 {
     /// <summary>
     /// Standard display of a team

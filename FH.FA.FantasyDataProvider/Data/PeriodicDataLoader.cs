@@ -1,4 +1,4 @@
-﻿namespace FantasyHelper.FA.DataProvider.Data
+﻿namespace FH.FA.DataProvider.Data
 {
     /// <summary>
     /// Handling the background service of periodically fetching and updating data from Fantasy Allsvenskan 
