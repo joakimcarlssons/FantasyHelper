@@ -1,6 +1,6 @@
-﻿namespace FH.UI.Blazor.Models
+﻿namespace FH.UI.Blazor.Components.ViewModels
 {
-    public class PlannerPlayer
+    public class PlannerPlayerViewModel
     {
         public int PlayerId { get; set; }
         public string FullName { get; set; }
@@ -9,22 +9,22 @@
         public int Position { get; set; }
         public int? ChanceOfPlayingThisRound { get; set; }
         public int? ChanceOfPlayingNextRound { get; set; }
-        public PlannerPlayerTeam Team { get; set; }
-        public IEnumerable<PlannerPlayerFixture> Fixtures { get; set; }
+        public PlannerPlayerTeamViewModel Team { get; set; }
+        public IEnumerable<PlannerPlayerFixtureViewModel> Fixtures { get; set; }
     }
 
-    public class PlannerPlayerTeam
+    public class PlannerPlayerTeamViewModel
     {
         public int TeamId { get; set; }
         public string ShortName { get; set; }
         public int Difficulty { get; set; }
     }
 
-    public class PlannerPlayerFixture
+    public class PlannerPlayerFixtureViewModel
     {
         public int GameweekId { get; set; }
-        public PlannerPlayerTeam HomeTeam { get; set; }
-        public PlannerPlayerTeam AwayTeam { get; set; }
+        public PlannerPlayerTeamViewModel HomeTeam { get; set; }
+        public PlannerPlayerTeamViewModel AwayTeam { get; set; }
         public bool IsFinished { get; set; }
     }
 }

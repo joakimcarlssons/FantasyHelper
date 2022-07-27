@@ -1,0 +1,26 @@
+﻿<div class="gameweek-planner-wrapper">
+    <h3>Gameweek @Gameweek</h3>
+
+    <p class="gameweek-subheader">Deadline: </p>
+
+    @for(int i = 0; i < 16; i++)
+    {
+        if (i == 11)
+        {
+            <!-- Put a divider after the starting XI to mark subs -->
+            <div class="divider"></div>
+        }
+        else
+        {
+            <PlannerPlayerSearchBar Players="Players" Gameweek="Gameweek" />
+        }
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int Gameweek { get; set; }
+
+    [Parameter]
+    public List<PlannerPlayerViewModel>? Players { get; set; }
+}

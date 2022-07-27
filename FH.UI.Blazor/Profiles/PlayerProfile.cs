@@ -6,6 +6,9 @@
         {
             // Source -> Target
             CreateMap<Player, PlayerViewModel>();
+            CreateMap<PlannerPlayer, PlannerPlayerViewModel>();
+            CreateMap<PlannerPlayerTeam, PlannerPlayerTeamViewModel>();
+            CreateMap<PlannerPlayerFixture, PlannerPlayerFixtureViewModel>();
         }
     }
 }

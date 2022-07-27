@@ -20,8 +20,9 @@
 
         #region Properties
 
-        public IEnumerable<PlannerPlayer> Players { get; set; }
+        public IEnumerable<PlannerPlayerViewModel> Players { get; set; }
         public string SelectedFantasyGame { get; set; }
+        public int GameweeksToDisplay { get; set; } = 2;
 
         #endregion
 
@@ -72,10 +73,10 @@
                 if (players == null)
                 {
                     Console.WriteLine("Could not parse players");
-                    throw new NullReferenceException(nameof(Player));
+                    throw new NullReferenceException(nameof(PlannerPlayer));
                 }
 
-                Players = players; //Mapper.Map<IEnumerable<PlayerViewModel>>(players);
+                Players = Mapper.Map<IEnumerable<PlannerPlayerViewModel>>(players);
             }
         }
 
@@ -85,7 +86,7 @@
 
         private void ResetData()
         {
-            Players = new List<PlannerPlayer>();
+            Players = new List<PlannerPlayerViewModel>();
         }
 
         #endregion

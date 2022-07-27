@@ -10,6 +10,9 @@
 </div>
 <div class="common-wrapper planner-wrapper">
 
-    @Players?.Count()
+    @for(int i = 1; i <= GameweeksToDisplay; i++)
+    {
+        <GameweekPlanner Players="Players?.ToList()" Gameweek="i" />
+    }
 
 </div>

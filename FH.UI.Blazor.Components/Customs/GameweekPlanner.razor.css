@@ -1,0 +1,19 @@
+﻿.gameweek-planner-wrapper {
+    max-width: 250px;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.gameweek-subheader {
+    font-size: 12px;
+    opacity: .8;
+}
+
+.divider {
+    width: 100%;
+    border: 1px dotted lightgrey;
+    margin: .8rem 0;
+}
