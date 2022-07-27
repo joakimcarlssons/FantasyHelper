@@ -45,6 +45,8 @@ namespace FH.UI.Blazor.Components.Customs
                 SearchInput = input;
                 if (String.IsNullOrEmpty(input))
                 {
+                    SelectedPlayer = new();
+                    SetSelectedPlayerFixtures();
                     FilteredPlayers = new();
                 }
                 else
@@ -81,9 +83,9 @@ namespace FH.UI.Blazor.Components.Customs
         private void SetSelectedPlayerFixtures()
         {
             SelectedPlayerFixtures = new();
-            if (SelectedPlayer != null || SelectedPlayer.Fixtures != null)
+            if (SelectedPlayer != null && SelectedPlayer?.Fixtures != null)
             {
-                foreach (var fixture in SelectedPlayer.Fixtures.Where(f => f.GameweekId == Gameweek))
+                foreach (var fixture in SelectedPlayer?.Fixtures?.Where(f => f.GameweekId == Gameweek))
                 {
                     SelectedPlayerFixtures.Add(new()
                     {
