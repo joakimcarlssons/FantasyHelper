@@ -12,7 +12,7 @@
         }
         else
         {
-            <PlannerPlayerSearchBar Players="Players" Gameweek="Gameweek" />
+            <PlannerPlayerSearchBar Players="Players" Gameweek="Gameweek" BarIndex="i" OnPlayerSelected="OnPlayerSelected" />
         }
     }
 </div>
@@ -23,4 +23,7 @@
 
     [Parameter]
     public List<PlannerPlayerViewModel>? Players { get; set; }
+
+    [Parameter]
+    public EventCallback<(int, PlannerTeamCurrentTeamViewModel)> OnPlayerSelected { get; set; }
 }

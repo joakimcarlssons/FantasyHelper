@@ -9,19 +9,31 @@ namespace FH.UI.Blazor.Components.Customs
         [Parameter]
         public int Gameweek { get; set; }
 
-        private List<PlannerPlayerViewModel>? players;
+        [Parameter]
+        public List<PlannerPlayerViewModel>? Players { get; set; }
 
         [Parameter]
-        public List<PlannerPlayerViewModel>? Players
+        public int BarIndex { get; set; }
+
+        [Parameter]
+        public EventCallback<(int, PlannerTeamCurrentTeamViewModel)> OnPlayerSelected { get; set; }
+
+
+        private List<PlannerTeamViewModel> currentTeam;
+        [CascadingParameter]
+        public List<PlannerTeamViewModel> CurrentTeam 
         {
-            get => players;
+            get => currentTeam;
             set
             {
-                if (players == value) return;
+                currentTeam = value;
+                if (currentTeam?.Any(t => t.Gameweek == Gameweek && t.Players.Any(p => p.Index == BarIndex)) ?? false)
+                {
+                    SetSelectedPlayer(currentTeam.FirstOrDefault(t => t.Gameweek == Gameweek).Players.FirstOrDefault(p => p.Index == BarIndex).Player);
+                }
                 else
                 {
-                    players = value;
-                    ResetData();
+                    ResetSelectedPlayer();
                 }
             }
         }
@@ -70,14 +82,29 @@ namespace FH.UI.Blazor.Components.Customs
         private event Action<string>? OnSearch;
         private void InputFieldChanged(string input) => OnSearch?.Invoke(input);
 
-        private void SelectPlayer(PlannerPlayerViewModel player)
+        private async Task SelectPlayer(PlannerPlayerViewModel player)
         {
             if (player == null) return;
+            await OnPlayerSelected.InvokeAsync((Gameweek, new(BarIndex, player)));
 
+            SetSelectedPlayer(player);
+
+            // Reset search field
+            FilteredPlayers = new();
+        }
+
+        private void SetSelectedPlayer(PlannerPlayerViewModel player)
+        {
             SelectedPlayer = player;
             SetSelectedPlayerFixtures();
             SearchInput = player.DisplayName;
-            FilteredPlayers = new();
+        }
+
+        private void ResetSelectedPlayer()
+        {
+            SelectedPlayer = new();
+            SelectedPlayerFixtures = new();
+            SearchInput = "";
         }
 
         private void SetSelectedPlayerFixtures()
@@ -108,7 +135,7 @@ namespace FH.UI.Blazor.Components.Customs
         }
 
         private void OnPlayerListHover(MouseEventArgs args, int hoveredPlayerIndex) => CurrentHoveredPlayerIndex = hoveredPlayerIndex;
-        private void ScrollPlayerList(KeyboardEventArgs args)
+        private async Task ScrollPlayerList(KeyboardEventArgs args)
         {
             if (args.Key == "ArrowDown")
             {
@@ -120,7 +147,7 @@ namespace FH.UI.Blazor.Components.Customs
             }
             else if (args.Key == "Enter")
             {
-                SelectPlayer(FilteredPlayers?[CurrentHoveredPlayerIndex]);
+                await SelectPlayer(FilteredPlayers?[CurrentHoveredPlayerIndex]);
             }
             else
             {

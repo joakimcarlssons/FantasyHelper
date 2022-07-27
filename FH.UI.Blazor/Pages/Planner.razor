@@ -10,9 +10,11 @@
 </div>
 <div class="common-wrapper planner-wrapper">
 
-    @for(int i = 1; i <= GameweeksToDisplay; i++)
-    {
-        <GameweekPlanner Players="Players?.ToList()" Gameweek="i" />
-    }
+    <CascadingValue Value="@CurrentTeam">
+        @for(int i = 1; i <= GameweeksToDisplay; i++)
+        {
+            <GameweekPlanner Players="Players?.ToList()" Gameweek="i" OnPlayerSelected="OnPlayerSelected" />
+        }
+    </CascadingValue>
 
 </div>

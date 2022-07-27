@@ -27,9 +27,9 @@ namespace FH.UI.Blazor.Pages
 
         #region Properties
 
-        public List<FixtureDisplayModel> TeamFixtures { get; set; } = new();
-        public IEnumerable<Team> Teams { get; set; }
-        public IEnumerable<Gameweek> Gameweeks { get; set; }
+        public static List<FixtureDisplayModel> TeamFixtures { get; set; } = new();
+        public static IEnumerable<Team> Teams { get; set; }
+        public static IEnumerable<Gameweek> Gameweeks { get; set; }
 
         public int GameweeksToDisplay { get; set; } = 10;
         public int NextGameweek => Gameweeks?.FirstOrDefault(gw => gw.IsNext)?.GameweekId ?? 1;
@@ -37,7 +37,7 @@ namespace FH.UI.Blazor.Pages
         public int MinGameweek { get; set; }
         public int MaxGameweek { get; set; }
 
-        private string SelectedFantasyGame { get; set; }
+        private static string SelectedFantasyGame { get; set; }
         private string ErrorMessage { get; set; } = "Loading fixtures...";
         public bool OpenTeamDetails { get; set; } = false;
         public TeamViewModel TeamToDisplay { get; set; }

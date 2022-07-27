@@ -4,7 +4,7 @@
         <!-- Input field -->
         <input type="text" placeholder="Type to search" 
             @bind="SearchInput" @oninput="((e) => InputFieldChanged(e?.Value?.ToString()))" 
-            @onkeydown="((e) => ScrollPlayerList(e))" />
+            @onkeydown="(async (e) => await ScrollPlayerList(e))" />
 
         <!-- Search list -->
         <div class="__search-list" 
@@ -14,7 +14,7 @@
             @foreach (var player in FilteredPlayers)
             {
                 <span class="search-list__player @(FilteredPlayers?.IndexOf(player) == CurrentHoveredPlayerIndex ? "selected": "")"
-                      @onclick="(() => SelectPlayer(player))"
+                      @onclick="(async () => await SelectPlayer(player))"
                       @onmouseover="((e) => OnPlayerListHover(e, FilteredPlayers.IndexOf(player)))">
                     @player.FullName
                 </span>
