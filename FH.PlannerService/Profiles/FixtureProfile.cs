@@ -1,6 +1,4 @@
-﻿using FH.PlannerService.Dtos.IncomingEventDtos;
-
-namespace FH.PlannerService.Profiles
+﻿namespace FH.PlannerService.Profiles
 {
     public class FixtureProfile : Profile
     {

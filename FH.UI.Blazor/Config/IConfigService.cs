@@ -7,5 +7,6 @@
         string GetAllTeamsURL();
         string GetAllFixturesURL();
         string GetFixtureByTeamURL(int teamId);
+        string GetPlannerPlayers();
     }
 }

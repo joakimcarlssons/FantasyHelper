@@ -39,6 +39,8 @@
 
         public string GetFixtureByTeamURL(int teamId) => $"{ GetAllFixturesURL() }/team/{ teamId }";
 
+        public string GetPlannerPlayers() => CurrentConfigSection.GetValue<string>(FantasyConfigKeys.PlannerPlayers);
+
         #endregion
     }
 
@@ -48,5 +50,6 @@
         public const string Players = "Players";
         public const string Teams = "Teams";
         public const string Fixtures = "Fixtures";
+        public const string PlannerPlayers = "PlannerPlayers";
     }
 }

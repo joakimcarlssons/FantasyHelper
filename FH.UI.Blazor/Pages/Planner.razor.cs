@@ -20,7 +20,7 @@
 
         #region Properties
 
-        public IEnumerable<PlayerViewModel> Players { get; set; }
+        public IEnumerable<PlannerPlayer> Players { get; set; }
         public string SelectedFantasyGame { get; set; }
 
         #endregion
@@ -65,17 +65,17 @@
 
         private async Task LoadPlayers()
         {
-            var response = await HttpClient.GetAsync(ConfigService.GetAllPlayersURL());
+            var response = await HttpClient.GetAsync(ConfigService.GetPlannerPlayers());
             if (response.IsSuccessStatusCode)
             {
-                var players = JsonSerializer.Deserialize<IEnumerable<Player>>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                var players = JsonSerializer.Deserialize<IEnumerable<PlannerPlayer>>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                 if (players == null)
                 {
                     Console.WriteLine("Could not parse players");
                     throw new NullReferenceException(nameof(Player));
                 }
 
-                Players = Mapper.Map<IEnumerable<PlayerViewModel>>(players);
+                Players = players; //Mapper.Map<IEnumerable<PlayerViewModel>>(players);
             }
         }
 
@@ -85,7 +85,7 @@
 
         private void ResetData()
         {
-            Players = new List<PlayerViewModel>();
+            Players = new List<PlannerPlayer>();
         }
 
         #endregion

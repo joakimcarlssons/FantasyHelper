@@ -12,6 +12,7 @@ namespace FH.PlannerService.Models
         public string ShortName { get; set; }
 
         public ICollection<Player> Players { get; set; } = new List<Player>();
+
         public ICollection<Fixture> HomeFixtures { get; set; } = new List<Fixture>();
         public ICollection<Fixture> AwayFixtures { get; set; } = new List<Fixture>();
     }

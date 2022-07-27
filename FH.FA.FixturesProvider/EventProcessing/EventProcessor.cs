@@ -48,7 +48,7 @@ namespace FH.FA.FixturesProvider.EventProcessing
                         if (dataLoadingRequestDto.Data.EventType == EventType.FixturesPublished)
                         {
                             // If there is a request for fixtures
-                            PublishFixtures(repo);
+                            await PublishFixtures(repo, dataLoader);
                         }
                         else
                         {
@@ -67,12 +67,9 @@ namespace FH.FA.FixturesProvider.EventProcessing
 
                         // Handle data from message
                         AddOrUpdateTeams(teamsPublishedDto.Data, repo);
-                        await dataLoader.LoadFixtureData();
-                        await dataLoader.LoadLeagueData();
-                        dataLoader.UpdateFixtureDifficulties();
 
                         // Publish event with handled data
-                        PublishFixtures(repo);
+                        await PublishFixtures(repo, dataLoader);
 
                         break;
                     }
@@ -84,8 +81,14 @@ namespace FH.FA.FixturesProvider.EventProcessing
 
         #region Private Methods
 
-        private void PublishFixtures(IRepository repo)
+        private async Task PublishFixtures(IRepository repo, IDataLoader dataLoader)
         {
+            // Run preparations
+            await dataLoader.LoadFixtureData();
+            await dataLoader.LoadLeagueData();
+            dataLoader.UpdateFixtureDifficulties();
+
+            // Publish fixtures
             var fixtures = repo.GetAllFixtures();
             _messagePublisher.PublishData(_mapper.Map<IEnumerable<FixtureReadDto>>(fixtures).ToPublishDataDto(EventType.FixturesPublished, EventSource.FantasyAllsvenskan));
         }

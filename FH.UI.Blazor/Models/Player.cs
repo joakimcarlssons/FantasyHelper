@@ -4,6 +4,7 @@
     {
         public int PlayerId { get; set; }
         public string FullName { get; set; }
+        public string DisplayName { get; set; }
         public decimal Price { get; set; }
         public int TeamId { get; set; }
         public string Form { get; set; }

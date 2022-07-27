@@ -156,6 +156,10 @@ namespace FH.FA.FixturesProvider.Data
 
                 foreach (var fixture in fixtures)
                 {
+                    // Make sure we start from 0
+                    fixture.AwayTeamDifficulty = fixture.HomeTeamDifficulty = 0;
+
+                    // Get teams
                     var homeTeam = repo.GetTeam(team => team.TeamId == fixture.HomeTeamId);
                     var awayTeam = repo.GetTeam(team => team.TeamId == fixture.AwayTeamId);
 
