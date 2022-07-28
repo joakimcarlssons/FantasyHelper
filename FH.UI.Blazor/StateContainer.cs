@@ -31,10 +31,16 @@
             {
                 if (selectedFantasyGame == value) return;
                 selectedFantasyGame = value;
+                NextGameweek = 0;
                 NotifyStateChanged();
             }
         }
 
+
+        /// <summary>
+        /// The next gameweek of the selected fantasy game
+        /// </summary>
+        public int NextGameweek { get; set; }
 
 
         public event Action? OnChange;

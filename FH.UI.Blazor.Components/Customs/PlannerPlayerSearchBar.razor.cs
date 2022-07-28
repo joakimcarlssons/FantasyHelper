@@ -147,6 +147,7 @@ namespace FH.UI.Blazor.Components.Customs
             }
             else if (args.Key == "Enter")
             {
+                if (FilteredPlayers == null || FilteredPlayers?.Count == 0) return;
                 await SelectPlayer(FilteredPlayers?[CurrentHoveredPlayerIndex]);
             }
             else

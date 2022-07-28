@@ -29,3 +29,7 @@
         font-weight: var(--fw-bold);
         cursor: pointer;
     }
+
+    .__blank {
+        background: var(--color-fixture-gray);
+    }

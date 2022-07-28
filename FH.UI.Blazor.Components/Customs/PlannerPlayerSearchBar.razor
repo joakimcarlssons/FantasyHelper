@@ -43,6 +43,12 @@
                 <FixtureDisplay TeamId="SelectedPlayer.Team.TeamId" NextGameweek="Gameweek" Fixtures="SelectedPlayerFixtures" />
             </div>
         }
+        else if (SelectedPlayer?.Team != null) // If the player has a blank gameweek
+        {
+            <div class="search-input__fixture">
+                <FixtureDisplay TeamId="SelectedPlayer.Team.TeamId" NextGameweek="Gameweek" Fixtures="SelectedPlayerFixtures" />
+            </div>
+        }
 
     </div>
 </div>

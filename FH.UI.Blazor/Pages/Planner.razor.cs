@@ -24,7 +24,7 @@ namespace FH.UI.Blazor.Pages
 
         public static IEnumerable<PlannerPlayerViewModel> Players { get; set; }
         public static string SelectedFantasyGame { get; set; }
-        public int GameweeksToDisplay { get; set; } = 2;
+        public int GameweeksToDisplay { get; set; } = 5;
 
         public List<PlannerTeamViewModel> CurrentTeam { get; set; }
 
@@ -37,7 +37,7 @@ namespace FH.UI.Blazor.Pages
             StateContainer.OnChange += StateHasChanged;
 
             CurrentTeam = new();
-            for (int i = 1; i <= GameweeksToDisplay; i++)
+            for (int i = StateContainer.NextGameweek; i <= (StateContainer.NextGameweek + GameweeksToDisplay); i++)
             {
                 CurrentTeam.Add(new() { Gameweek = i, Players = new() });
             }
@@ -59,6 +59,12 @@ namespace FH.UI.Blazor.Pages
                     ResetData();
 
                     // Load data
+                    if (StateContainer.NextGameweek == 0)
+                    {
+                        await LoadGameweeks();
+                    }
+
+                    Console.WriteLine(StateContainer.NextGameweek);
                     await LoadPlayers();
 
                     StateHasChanged();
@@ -73,6 +79,27 @@ namespace FH.UI.Blazor.Pages
         #endregion
 
         #region Data Loads
+
+        private async Task LoadGameweeks()
+        {
+            var response = await HttpClient.GetAsync(ConfigService.GetAllGameweeksURL());
+            Console.WriteLine(response.StatusCode);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var gameweeks = JsonSerializer.Deserialize<IEnumerable<Gameweek>>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+                if (gameweeks == null)
+                {
+                    Console.WriteLine("Could not parse gameweeks");
+                    throw new NullReferenceException(nameof(gameweeks));
+                }
+
+                StateContainer.NextGameweek = gameweeks?.FirstOrDefault(gw => gw.IsNext)?.GameweekId ?? 0;
+            }
+        }
 
         private async Task LoadPlayers()
         {
@@ -105,18 +132,21 @@ namespace FH.UI.Blazor.Pages
         {
             if (CurrentTeam == null) CurrentTeam = new();
 
+            // Extract payload
             (var gameweek, var player) = payload;
 
-            if (!CurrentTeam.Any(ct => ct.Gameweek == gameweek))
+            // Verify that we have teams
+            for (int i = gameweek; i <= (gameweek + ((StateContainer.NextGameweek  + GameweeksToDisplay) - gameweek)); i++)
             {
-                CurrentTeam.Add(new() { Gameweek = gameweek, Players = new() { player } });
+                if (!CurrentTeam.Any(ct => ct.Gameweek == i))
+                {
+                    CurrentTeam.Add(new() { Gameweek = i, Players = new() { player } });
+                }
             }
 
             // We only want to add players in upcoming fixtures
             foreach (var team in CurrentTeam.Where(t => t.Gameweek >= gameweek))
             {
-                // TODO: Make sure we can move players around
-
                 // Check if the player exists in the team
                 if (team.Players.Any(p => p.Player.PlayerId == player.Player.PlayerId))
                 {

@@ -113,6 +113,7 @@ namespace FH.UI.Blazor.Pages
                 }
 
                 Gameweeks = gameweeks;
+                StateContainer.NextGameweek = NextGameweek;
                 MinGameweek = NextGameweek;
                 MaxGameweek = Gameweeks.MaxBy(gw => gw.GameweekId).GameweekId;
             }

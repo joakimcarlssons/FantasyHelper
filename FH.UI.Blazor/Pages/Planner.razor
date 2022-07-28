@@ -11,7 +11,7 @@
 <div class="common-wrapper planner-wrapper">
 
     <CascadingValue Value="@CurrentTeam">
-        @for(int i = 1; i <= GameweeksToDisplay; i++)
+        @for(int i = StateContainer.NextGameweek; i <= (StateContainer.NextGameweek + GameweeksToDisplay); i++)
         {
             <GameweekPlanner Players="Players?.ToList()" Gameweek="i" OnPlayerSelected="OnPlayerSelected" />
         }
