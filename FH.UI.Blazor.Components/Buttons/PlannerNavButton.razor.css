@@ -1,0 +1,49 @@
+﻿.planner-nav-btn-wrapper {
+    max-width: 10rem;
+    overflow: hidden;
+    padding: .5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid var(--color-borderline-gray);
+    border-radius: 5px 5px 0 0;
+    box-shadow: 1.8px -.7px 1px 0px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+    .planner-nav-btn-wrapper:nth-of-type(1) {
+        margin-left: 1em;
+        border-left: 1px solid var(--color-borderline-gray);
+    }
+
+    .planner-nav-btn-wrapper.active {
+        background-color: var(--color-verylight-gray);
+        border-left: 1px solid rgba(0,0,0,0.2);
+    }
+
+.planner-nav-btn__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .planner-nav-btn__content input {
+        max-width: 8rem;
+        font-weight: 700;
+        text-align: center;
+        border: none;
+        background: transparent;
+        outline: none !important;
+        outline-style: none !important;
+        box-shadow: 0 0 0 rgb(255, 255, 255) !important;
+        cursor: pointer;
+        pointer-events: none;
+    }
+
+*::selection {
+    user-select: none;
+}
+
+i {
+    color: red;
+}

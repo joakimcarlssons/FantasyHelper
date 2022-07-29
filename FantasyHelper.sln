@@ -15,11 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{43
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{EF456631-ED45-4EE0-B80D-525604845697}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FH.UI.Blazor", "FH.UI.Blazor\FH.UI.Blazor.csproj", "{0BC56E00-55E6-48AD-8F70-9CC714FBBDE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FH.UI.Blazor", "FH.UI.Blazor\FH.UI.Blazor.csproj", "{0BC56E00-55E6-48AD-8F70-9CC714FBBDE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FH.UI.Blazor.Components", "FH.UI.Blazor.Components\FH.UI.Blazor.Components.csproj", "{FA5E540D-C4DE-4FF9-A6CA-13F7F8B05498}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FH.UI.Blazor.Components", "FH.UI.Blazor.Components\FH.UI.Blazor.Components.csproj", "{FA5E540D-C4DE-4FF9-A6CA-13F7F8B05498}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FH.PlannerService", "FH.PlannerService\FH.PlannerService.csproj", "{E9175749-C164-4EC3-A840-FBA7360FA5CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FH.PlannerService", "FH.PlannerService\FH.PlannerService.csproj", "{E9175749-C164-4EC3-A840-FBA7360FA5CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

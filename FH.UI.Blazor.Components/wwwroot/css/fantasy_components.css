@@ -23,8 +23,10 @@ html, body {
     /* Colors */
     --color-black: #000000;
     --color-white: #FEFEFE;
+    --color-verylight-gray: #ECEBEB;
     --color-lightgray: #EFEFEF;
     --color-middlelight-gray: #AAAAAA;
+    --color-borderline-gray: #ABABAA;
     --color-gray: #888888;
     --color-darkgray: #E1E1E1;
     --color-fixture-green: #01FC7A;

@@ -2,15 +2,25 @@
 
 <div class="planner-nav">
 
+    @foreach(var plan in Plans)
+    {
+        <PlannerNavButton 
+            Plan="@plan"
+            Activate="ActivatePlan"
+            Remove="RemovePlan"
+            UpdateName="UpdatePlanName"
+        />
+    }
+
     @if (!StateContainer.DataIsLoading)
     {
-        <AddPlannerButton />
+        <PlannerAddButton CreatePlan="AddNewPlan" />
     }
 
 </div>
 <div class="common-wrapper planner-wrapper">
 
-    <CascadingValue Value="@CurrentTeam">
+    <CascadingValue Value="@Teams">
         @for(int i = StateContainer.NextGameweek; i <= (StateContainer.NextGameweek + GameweeksToDisplay); i++)
         {
             <GameweekPlanner Players="Players?.ToList()" Gameweek="i" OnPlayerSelected="OnPlayerSelected" />

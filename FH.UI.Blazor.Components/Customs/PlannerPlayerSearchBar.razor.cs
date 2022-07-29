@@ -16,20 +16,20 @@ namespace FH.UI.Blazor.Components.Customs
         public int BarIndex { get; set; }
 
         [Parameter]
-        public EventCallback<(int, PlannerTeamCurrentTeamViewModel)> OnPlayerSelected { get; set; }
+        public EventCallback<(int, PlannerPlayerInTeamViewModel)> OnPlayerSelected { get; set; }
 
 
-        private List<PlannerTeamViewModel> currentTeam;
+        private List<PlannerTeamViewModel> teams;
         [CascadingParameter]
-        public List<PlannerTeamViewModel> CurrentTeam 
+        public List<PlannerTeamViewModel> Teams 
         {
-            get => currentTeam;
+            get => teams;
             set
             {
-                currentTeam = value;
-                if (currentTeam?.Any(t => t.Gameweek == Gameweek && t.Players.Any(p => p.Index == BarIndex)) ?? false)
+                teams = value;
+                if (teams?.Any(t => t.Gameweek == Gameweek && t.Players.Any(p => p.Index == BarIndex)) ?? false)
                 {
-                    SetSelectedPlayer(currentTeam.FirstOrDefault(t => t.Gameweek == Gameweek).Players.FirstOrDefault(p => p.Index == BarIndex).Player);
+                    SetSelectedPlayer(teams.FirstOrDefault(t => t.Gameweek == Gameweek).Players.FirstOrDefault(p => p.Index == BarIndex));
                 }
                 else
                 {
@@ -85,7 +85,10 @@ namespace FH.UI.Blazor.Components.Customs
         private async Task SelectPlayer(PlannerPlayerViewModel player)
         {
             if (player == null) return;
-            await OnPlayerSelected.InvokeAsync((Gameweek, new(BarIndex, player)));
+
+            var selectedPlayer = new PlannerPlayerInTeamViewModel(player);
+            selectedPlayer.Index = BarIndex;
+            await OnPlayerSelected.InvokeAsync((Gameweek, selectedPlayer));
 
             SetSelectedPlayer(player);
 

@@ -1,0 +1,18 @@
+﻿<div class="planner-nav-btn-wrapper @(Plan.IsActive ? "active" : "")"
+    @onclick="@(async () => await ActivatePlan())"
+    @ondblclick="@(async (e) => await EditContent(e))"
+>
+    <div class="planner-nav-btn__content">
+        <input type="text" 
+            @bind="@Plan.Name"
+            readonly="@(!IsEditable)"
+            @ref="TextInput"
+            @onfocusout="@(async () => await UpdateNameOfPlan())"
+        />
+
+        @if (Plan.IsActive && IsRemovable)
+        {
+            <i class="fas fa-minus-circle" @onclick="@(async () => await RemovePlan())"></i>
+        }
+    </div>
+</div>

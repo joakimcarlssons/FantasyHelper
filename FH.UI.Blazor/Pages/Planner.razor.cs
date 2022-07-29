@@ -26,7 +26,9 @@ namespace FH.UI.Blazor.Pages
         public static string SelectedFantasyGame { get; set; }
         public int GameweeksToDisplay { get; set; } = 5;
 
-        public List<PlannerTeamViewModel> CurrentTeam { get; set; }
+        public List<PlannerPlanViewModel> Plans { get; set; }
+        public PlannerPlanViewModel ActivePlan => Plans?.FirstOrDefault(plan => plan.IsActive);
+        public List<PlannerTeamViewModel> Teams => ActivePlan?.Teams;
 
         #endregion
 
@@ -36,10 +38,10 @@ namespace FH.UI.Blazor.Pages
         {
             StateContainer.OnChange += StateHasChanged;
 
-            CurrentTeam = new();
+            Plans = new() { new() { PlanId = 1, IsActive = true, Teams = new() } };
             for (int i = StateContainer.NextGameweek; i <= (StateContainer.NextGameweek + GameweeksToDisplay); i++)
             {
-                CurrentTeam.Add(new() { Gameweek = i, Players = new() });
+                Plans.FirstOrDefault(p => p.IsActive).Teams.Add(new() { Gameweek = i, Players = new() });
             }
         }
 
@@ -50,7 +52,7 @@ namespace FH.UI.Blazor.Pages
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if(StateContainer.SelectedFantasyGame != SelectedFantasyGame)
+            if (StateContainer.SelectedFantasyGame != SelectedFantasyGame)
             {
                 try
                 {
@@ -64,7 +66,6 @@ namespace FH.UI.Blazor.Pages
                         await LoadGameweeks();
                     }
 
-                    Console.WriteLine(StateContainer.NextGameweek);
                     await LoadPlayers();
 
                     StateHasChanged();
@@ -128,39 +129,47 @@ namespace FH.UI.Blazor.Pages
             Players = new List<PlannerPlayerViewModel>();
         }
 
-        public void OnPlayerSelected((int, PlannerTeamCurrentTeamViewModel) payload)
+        public void OnPlayerSelected((int, PlannerPlayerInTeamViewModel) payload)
         {
-            if (CurrentTeam == null) CurrentTeam = new();
-
             // Extract payload
-            (var gameweek, var player) = payload;
+            (var gameweek, var selectedPlayer) = payload;
+
+            // Make sure plans are initialized
+            if (Plans == null) Plans = new() { new() { IsActive = true }};
+
+            // Get selected plan
+            var selectedPlan = Plans.FirstOrDefault(plan => plan.IsActive);
 
             // Verify that we have teams
             for (int i = gameweek; i <= (gameweek + ((StateContainer.NextGameweek  + GameweeksToDisplay) - gameweek)); i++)
             {
-                if (!CurrentTeam.Any(ct => ct.Gameweek == i))
+                if (!selectedPlan.Teams.Any(team => team.Gameweek == i))
                 {
-                    CurrentTeam.Add(new() { Gameweek = i, Players = new() { player } });
+                    selectedPlan.Teams.Add(new()
+                    {
+                        Gameweek = i,
+                        Players = new() { selectedPlayer }
+                    });
                 }
             }
 
-            // We only want to add players in upcoming fixtures
-            foreach (var team in CurrentTeam.Where(t => t.Gameweek >= gameweek))
+            // We only want to add players in upcoming fixtures in the active plan
+            foreach (var team in selectedPlan.Teams.Where(t => t.Gameweek >= gameweek))
             {
                 // Check if the player exists in the team
-                if (team.Players.Any(p => p.Player.PlayerId == player.Player.PlayerId))
+                if (team.Players.Any(p => p.PlayerId == selectedPlayer.PlayerId))
                 {
                     // Get the index of the player
-                    var playerIndex = team.Players.FirstOrDefault(p => p.Player.PlayerId == player.Player.PlayerId).Index;
+                    var playerIndex = team.Players.FirstOrDefault(p => p.PlayerId == selectedPlayer.PlayerId).Index;
 
                     // Check if any player exists on the given index
-                    if (team.Players.Any(p => p.Index == player.Index))
+                    if (team.Players.Any(p => p.Index == selectedPlayer.Index))
                     {
                         // Store that player
-                        var movingPlayer = team.Players.FirstOrDefault(p => p.Index == player.Index);
+                        var movingPlayer = team.Players.FirstOrDefault(p => p.Index == selectedPlayer.Index);
 
                         // Remove players
-                        team.Players.RemoveAll(p => p.Index == player.Index);
+                        team.Players.RemoveAll(p => p.Index == selectedPlayer.Index);
 
                         // Assign new index to moving player
                         movingPlayer.Index = playerIndex;
@@ -170,17 +179,47 @@ namespace FH.UI.Blazor.Pages
                     }
 
                     // Remove the player
-                    team.Players.RemoveAll(p => p.Player.PlayerId == player.Player.PlayerId);
+                    team.Players.RemoveAll(p => p.PlayerId == selectedPlayer.PlayerId);
                 }
                 else
                 {
                     // Else we remove the player sitting on the given index
-                    team.Players.RemoveAll(p => p.Index == player.Index);
+                    team.Players.RemoveAll(p => p.Index == selectedPlayer.Index);
                 }
 
                 // Add the player
-                team.Players.Add(player);
+                team.Players.Add(selectedPlayer);
             }
+        }
+
+        public void AddNewPlan()
+        {
+            Plans.Add(new()
+            {
+                PlanId = Plans.Count + 1,
+                Teams = new(),
+                IsActive = false
+            });
+        }
+
+        public void ActivatePlan(PlannerPlanViewModel plan)
+        {
+            ActivePlan.IsActive = false;
+            Plans.FirstOrDefault(p => p == plan).IsActive = true;
+        }
+
+        public void RemovePlan(PlannerPlanViewModel plan)
+        {
+            // If the active plan is being removed, set previous plan as active
+            if (ActivePlan == plan) Plans.FirstOrDefault(p => p.PlanId == plan.PlanId - 1).IsActive = true;
+
+            // Remove plan
+            Plans.Remove(plan);
+        }
+
+        public void UpdatePlanName(PlannerPlanViewModel plan)
+        {
+            Plans.FirstOrDefault(p => p.PlanId == plan.PlanId).Name = plan.Name;
         }
 
         #endregion
