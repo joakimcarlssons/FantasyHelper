@@ -18,6 +18,9 @@ namespace FH.UI.Blazor.Pages
         [Inject]
         public IMapper Mapper { get; set; }
 
+        [Inject]
+        public IJSRuntime JS { get; set; }
+
         #endregion
 
         #region Properties
@@ -27,21 +30,28 @@ namespace FH.UI.Blazor.Pages
         public int GameweeksToDisplay { get; set; } = 5;
 
         public List<PlannerPlanViewModel> Plans { get; set; }
-        public PlannerPlanViewModel ActivePlan => Plans?.FirstOrDefault(plan => plan.IsActive);
+        public PlannerPlanViewModel ActivePlan => Plans?.FirstOrDefault(plan => plan.IsActive) ?? Plans?.FirstOrDefault();
         public List<PlannerTeamViewModel> Teams => ActivePlan?.Teams;
 
         #endregion
 
         #region Init / Render
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
             StateContainer.OnChange += StateHasChanged;
 
-            Plans = new() { new() { PlanId = 1, IsActive = true, Teams = new() } };
+            ResetPlans();
+            var plans = await JS.LoadFromLocalStorage<IEnumerable<PlannerPlanViewModel>>($"{ StateContainer.SelectedFantasyGame }_Plans");
+            if (plans != null)
+            {
+                Plans = plans.ToList();
+            }
+
+
             for (int i = StateContainer.NextGameweek; i <= (StateContainer.NextGameweek + GameweeksToDisplay); i++)
             {
-                Plans.FirstOrDefault(p => p.IsActive).Teams.Add(new() { Gameweek = i, Players = new() });
+                Plans?.FirstOrDefault(p => p.IsActive)?.Teams?.Add(new() { Gameweek = i, Players = new() });
             }
         }
 
@@ -68,6 +78,15 @@ namespace FH.UI.Blazor.Pages
 
                     await LoadPlayers();
 
+                    if (!firstRender)
+                    {
+                        var plans = await JS.LoadFromLocalStorage<IEnumerable<PlannerPlanViewModel>>($"{ StateContainer.SelectedFantasyGame }_Plans");
+                        if (plans != null)
+                        {
+                            Plans = plans.ToList();
+                        }
+                    }
+
                     StateHasChanged();
                 }
                 finally
@@ -84,8 +103,6 @@ namespace FH.UI.Blazor.Pages
         private async Task LoadGameweeks()
         {
             var response = await HttpClient.GetAsync(ConfigService.GetAllGameweeksURL());
-            Console.WriteLine(response.StatusCode);
-
             if (response.IsSuccessStatusCode)
             {
                 var gameweeks = JsonSerializer.Deserialize<IEnumerable<Gameweek>>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions
@@ -105,7 +122,6 @@ namespace FH.UI.Blazor.Pages
         private async Task LoadPlayers()
         {
             var response = await HttpClient.GetAsync(ConfigService.GetPlannerPlayers());
-
             if (response.IsSuccessStatusCode)
             {
                 var players = JsonSerializer.Deserialize<IEnumerable<PlannerPlayer>>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
@@ -127,6 +143,12 @@ namespace FH.UI.Blazor.Pages
         private void ResetData()
         {
             Players = new List<PlannerPlayerViewModel>();
+            ResetPlans();
+        }
+
+        private void ResetPlans()
+        {
+            Plans = new() { new() { PlanId = 1, IsActive = true, Teams = new() } };
         }
 
         public void OnPlayerSelected((int, PlannerPlayerInTeamViewModel) payload)
@@ -134,8 +156,10 @@ namespace FH.UI.Blazor.Pages
             // Extract payload
             (var gameweek, var selectedPlayer) = payload;
 
+            Console.WriteLine($"Incoming gameweek: " + gameweek);
+
             // Make sure plans are initialized
-            if (Plans == null) Plans = new() { new() { IsActive = true }};
+            if (Plans == null || Plans.Count <= 0) Plans = new() { new() { IsActive = true, Teams = new() }};
 
             // Get selected plan
             var selectedPlan = Plans.FirstOrDefault(plan => plan.IsActive);
@@ -157,10 +181,10 @@ namespace FH.UI.Blazor.Pages
             foreach (var team in selectedPlan.Teams.Where(t => t.Gameweek >= gameweek))
             {
                 // Check if the player exists in the team
-                if (team.Players.Any(p => p.PlayerId == selectedPlayer.PlayerId))
+                if (team.Players.Any(p => p.Player.PlayerId == selectedPlayer.Player.PlayerId))
                 {
                     // Get the index of the player
-                    var playerIndex = team.Players.FirstOrDefault(p => p.PlayerId == selectedPlayer.PlayerId).Index;
+                    var playerIndex = team.Players.FirstOrDefault(p => p.Player.PlayerId == selectedPlayer.Player.PlayerId).Index;
 
                     // Check if any player exists on the given index
                     if (team.Players.Any(p => p.Index == selectedPlayer.Index))
@@ -179,7 +203,7 @@ namespace FH.UI.Blazor.Pages
                     }
 
                     // Remove the player
-                    team.Players.RemoveAll(p => p.PlayerId == selectedPlayer.PlayerId);
+                    team.Players.RemoveAll(p => p.Player.PlayerId == selectedPlayer.Player.PlayerId);
                 }
                 else
                 {
@@ -190,6 +214,9 @@ namespace FH.UI.Blazor.Pages
                 // Add the player
                 team.Players.Add(selectedPlayer);
             }
+
+            // Save changes
+            Task.Run(async () => await JS.SaveToLocalStorage($"{ StateContainer.SelectedFantasyGame }_Plans", Plans));
         }
 
         public void AddNewPlan()
@@ -200,26 +227,44 @@ namespace FH.UI.Blazor.Pages
                 Teams = new(),
                 IsActive = false
             });
+
+            // Save changes
+            Task.Run(async () => await JS.SaveToLocalStorage($"{ StateContainer.SelectedFantasyGame }_Plans", Plans) );
         }
 
         public void ActivatePlan(PlannerPlanViewModel plan)
         {
-            ActivePlan.IsActive = false;
-            Plans.FirstOrDefault(p => p == plan).IsActive = true;
+            if (ActivePlan != null) ActivePlan.IsActive = false;
+
+            var planToActivate = Plans.FirstOrDefault(p => p.PlanId == plan.PlanId);
+            if (planToActivate != null) planToActivate.IsActive = true;
+
+            // Save changes
+            Task.Run(async () => await JS.SaveToLocalStorage($"{ StateContainer.SelectedFantasyGame }_Plans", Plans));
         }
 
         public void RemovePlan(PlannerPlanViewModel plan)
         {
             // If the active plan is being removed, set previous plan as active
-            if (ActivePlan == plan) Plans.FirstOrDefault(p => p.PlanId == plan.PlanId - 1).IsActive = true;
-
+            if (ActivePlan?.PlanId == plan.PlanId)
+            {
+                var index = Plans.IndexOf(ActivePlan);
+                Plans[index - 1].IsActive = true;
+            }
+               
             // Remove plan
-            Plans.Remove(plan);
+            Plans.RemoveAll(p => p.PlanId == plan.PlanId);
+
+            // Save changes
+            Task.Run(async () => await JS.SaveToLocalStorage($"{ StateContainer.SelectedFantasyGame }_Plans", Plans));
         }
 
         public void UpdatePlanName(PlannerPlanViewModel plan)
         {
             Plans.FirstOrDefault(p => p.PlanId == plan.PlanId).Name = plan.Name;
+
+            // Save changes
+            Task.Run(async () => await JS.SaveToLocalStorage($"{ StateContainer.SelectedFantasyGame }_Plans", Plans));
         }
 
         #endregion

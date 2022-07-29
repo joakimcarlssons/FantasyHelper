@@ -29,7 +29,7 @@ namespace FH.UI.Blazor.Components.Customs
                 teams = value;
                 if (teams?.Any(t => t.Gameweek == Gameweek && t.Players.Any(p => p.Index == BarIndex)) ?? false)
                 {
-                    SetSelectedPlayer(teams.FirstOrDefault(t => t.Gameweek == Gameweek).Players.FirstOrDefault(p => p.Index == BarIndex));
+                    SetSelectedPlayer(teams.FirstOrDefault(t => t.Gameweek == Gameweek).Players.FirstOrDefault(p => p.Index == BarIndex).Player);
                 }
                 else
                 {
@@ -86,8 +86,8 @@ namespace FH.UI.Blazor.Components.Customs
         {
             if (player == null) return;
 
-            var selectedPlayer = new PlannerPlayerInTeamViewModel(player);
-            selectedPlayer.Index = BarIndex;
+            var selectedPlayer = new PlannerPlayerInTeamViewModel() { Index = BarIndex, Player = player };
+            //selectedPlayer.Index = BarIndex;
             await OnPlayerSelected.InvokeAsync((Gameweek, selectedPlayer));
 
             SetSelectedPlayer(player);

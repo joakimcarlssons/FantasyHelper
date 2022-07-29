@@ -44,10 +44,10 @@ namespace FH.UI.Blazor.Components.Helpers
         {
             try
             {
-                var result = await js.InvokeAsync<T>(LoadFromLocal, key);
-                Console.WriteLine($"{ key } loaded from local storage: { result }");
+                var result = await js.InvokeAsync<string>(LoadFromLocal, key);
+                if (result == null) result = "[]";
 
-                return result;
+                return JsonSerializer.Deserialize<T>(result, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             }
             catch (Exception ex)
             {

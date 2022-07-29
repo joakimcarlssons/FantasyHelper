@@ -6,9 +6,13 @@
     }
 
     // Load data from local storage
-    function LoadFromLocalStorage(key) {
+function LoadFromLocalStorage(key) {
+    try {
         return localStorage.getItem(key);
     }
+    catch {
+    }
+}
 
     // Remove data from local storage
     function RemoveFromLocalStorage(key) {
